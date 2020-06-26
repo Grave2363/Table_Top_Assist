@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "333100013079",
+    "firebase_url": "https://project-and-portfolio-4.firebaseio.com",
+    "project_id": "project-and-portfolio-4",
+    "storage_bucket": "project-and-portfolio-4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:333100013079:android:e104b56386252305e0ee52",
+        "android_client_info": {
+          "package_name": "com.agn.rpgcompanion"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "333100013079-54alkrc3gcg9bgeki6nepmjbhi99ajg4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAP5XoORnLIfBPwjNKa2XCGEgHAUorV5Q0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "333100013079-54alkrc3gcg9bgeki6nepmjbhi99ajg4.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "333100013079-rsktjgdoavqa3gmuook4uo0r85977p0j.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.agn.rpgcompanion"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
