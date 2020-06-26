@@ -87,6 +87,11 @@ class _editNoteState extends State<editNote> {
                 color: Colors.red,
                 child: Text('New Note'),
                 onPressed: ()  {
+                  _save();
+                  _titleController.text = '';
+                  _contentsController.text = '';
+                  selName = '';
+                  noteContents = '';
                 },
               ),
             ],
