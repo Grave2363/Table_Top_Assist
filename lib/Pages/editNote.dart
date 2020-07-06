@@ -3,14 +3,12 @@ import 'package:rpgcompanion/shared/const.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'noteMain.dart';
 class editNote extends StatefulWidget {
-  final String recName;
-  editNote({Key key, this.recName}): super(key:key);
   @override
   _editNoteState createState() => _editNoteState();
 }
 
 class _editNoteState extends State<editNote> {
-  List<String> names = [];
+  List<String> names = ['new Note'];
   int i = 0;
   String selName = '';
   String initName = '';
@@ -20,8 +18,9 @@ class _editNoteState extends State<editNote> {
   _read() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
       names =  pref.getStringList('index_of_keys');
-      if (i < names.length){selName = names[i];}
-      noteContents = pref.getString('$selName');
+      if (names == null){ names = new List<String>(); names.add('New Note');}
+      if (i < names.length && names.length != null){selName = names[i];
+      noteContents = pref.getString('$selName');}
       _titleController.text = selName;
       _contentsController.text = noteContents;
   }
@@ -35,7 +34,7 @@ class _editNoteState extends State<editNote> {
   }
   _clear () async{
     SharedPreferences pref = await SharedPreferences.getInstance();
-    for (int i = 0; i < names.length; i++){ await pref.remove(names[i]);}
+    for (int s = 0; s < names.length; s++){ await pref.remove(names[i]);}
     await pref.remove('index_of_keys');
     names.clear();
   }
@@ -48,6 +47,7 @@ class _editNoteState extends State<editNote> {
   void initState()
   {
     super.initState();
+    i = 0;
     _read();
   }
   @override

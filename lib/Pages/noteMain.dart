@@ -59,7 +59,7 @@ class _noteMainState extends State<noteMain> {
               onPressed: (){  _save();
                 selName = names[index];
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => editNote(recName: names[index],)
+                    builder: (context) => editNote()
                 ));
               },
             ),
