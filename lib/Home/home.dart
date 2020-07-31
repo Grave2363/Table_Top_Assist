@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rpgcompanion/Pages/Dice.dart';
+import 'package:rpgcompanion/Pages/SearchChar.dart';
 import 'package:rpgcompanion/Pages/charCreation.dart';
 import 'package:rpgcompanion/Pages/editNote.dart';
 import 'package:rpgcompanion/Pages/noteMain.dart';
@@ -40,7 +41,7 @@ class home extends StatelessWidget {
             child: Text('  View Characters  '),
             onPressed: ()  {
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => makeCharacter(load: true,)
+                  builder: (context) => CharSearch()
               ));
             },
           ),
