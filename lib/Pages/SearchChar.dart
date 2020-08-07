@@ -3,7 +3,7 @@ import 'package:rpgcompanion/Authenticate/regester.dart';
 import 'package:rpgcompanion/servicces/auth.dart';
 import 'package:rpgcompanion/shared/const.dart';
 import 'package:rpgcompanion/shared/loading.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'charCreation.dart';
 class CharSearch extends StatefulWidget {
   @override
@@ -12,6 +12,18 @@ class CharSearch extends StatefulWidget {
 
 class _CharSearch extends State<CharSearch> {
 String name = "";
+_read() async
+{
+  SharedPreferences pref = await SharedPreferences.getInstance();
+}
+void dispose(){
+  super.dispose();
+}
+void initState()
+{
+  super.initState();
+    _read();
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +44,7 @@ String name = "";
               TextFormField(onChanged: (val) {setState(() => name = val);},validator: (val) => val.isEmpty ? 'Enter a name': null,decoration: textInputDecor.copyWith(hintText: 'name'),),
               FlatButton( color: Colors.red, child: Text('Find Character'),  onPressed: ()  {
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => CharSearch()
+                    builder: (context) => makeCharacter()
                 ));
               },
               ),],

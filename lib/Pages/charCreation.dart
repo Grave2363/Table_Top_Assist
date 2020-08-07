@@ -4,8 +4,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 class makeCharacter extends StatefulWidget {
+  final name;
   final bool load;
-  makeCharacter({Key key, this.load}): super(key:key);
+  makeCharacter({Key key, this.name, this.load}): super(key:key);
   @override
   _makeCharacterState createState() => _makeCharacterState();
 }
@@ -42,6 +43,7 @@ class _makeCharacterState extends State<makeCharacter> {
   final nameIndex = 'index_of_names';
   _save() async{
     final pref = await SharedPreferences.getInstance();
+    final nameList = pref.getStringList('Names');
     final nameKey = '$nameVal';
     final ingKey = '$nameVal img';
     final skillKey = '$nameVal skill';
@@ -55,7 +57,10 @@ class _makeCharacterState extends State<makeCharacter> {
     final charKey = '$nameVal char';
     final levelKey = '$nameVal level';
     if (nameVal.length > 0)
-      await pref.setString(nameKey, nameVal);
+    {
+      nameList.add(nameKey);
+      await pref.setStringList('Names', nameList);
+    }
     if (newImg == true) {
       imgString = imageFile.path;
       await pref.setString(ingKey, imgString);
@@ -75,7 +80,6 @@ class _makeCharacterState extends State<makeCharacter> {
   }
   _read() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
-    _nameController.text = pref.getString('$recName');
     _levelController.text = pref.getString('$recName level');
      _magicController.text = pref.getString('$recName magic');
      _skillController.text = pref.getString('$recName skill');
