@@ -11,10 +11,13 @@ class CharSearch extends StatefulWidget {
 }
 
 class _CharSearch extends State<CharSearch> {
-String name = "";
+var name = "";
+var names = new List(20);
+String error = "";
 _read() async
 {
   SharedPreferences pref = await SharedPreferences.getInstance();
+  names = pref.getStringList('Names');
 }
 void dispose(){
   super.dispose();
@@ -43,11 +46,22 @@ void initState()
               SizedBox(height: 20.0,),
               TextFormField(onChanged: (val) {setState(() => name = val);},validator: (val) => val.isEmpty ? 'Enter a name': null,decoration: textInputDecor.copyWith(hintText: 'name'),),
               FlatButton( color: Colors.red, child: Text('Find Character'),  onPressed: ()  {
+                if (names.contains(name))
+                {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => makeCharacter()
                 ));
+                }
+                else {
+                  setState(() {
+                    error = 'Character has not been created.';
+                    });
+                }
               },
-              ),],
+              ),
+              SizedBox(height: 15.0,),
+              Text(error, style: TextStyle(color: Colors.red, fontSize: 12.0),),
+            ],
           ),
         ),
       ),
