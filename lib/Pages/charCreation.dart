@@ -61,11 +61,13 @@ class _makeCharacterState extends State<makeCharacter> {
       nameList.add(nameKey);
       await pref.setStringList('Names', nameList);
     }
-    if (newImg == true) {
+    if (newImg == true)
+    {
       imgString = imageFile.path;
       await pref.setString(ingKey, imgString);
-      print ('$imgString');
+      print('$imgString');
       print('$imageFile');
+    }
       if (skills.length > 1){ await pref.setString(skillKey, skills);}
       if (magic.length > 1){ await pref.setString(magicKey, magic);}
       if (classes.length > 1){ await pref.setString(classKey, classes);}
@@ -76,7 +78,7 @@ class _makeCharacterState extends State<makeCharacter> {
       if (Wis.length > 1){ await pref.setString(wisKey, Wis);}
       if (Char.length > 1){ await pref.setString(charKey, Char);}
       if (level.length > 1){ await pref.setString(levelKey, level);}
-    }
+
   }
   _read() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
