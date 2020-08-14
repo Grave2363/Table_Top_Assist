@@ -32,7 +32,7 @@ class home extends StatelessWidget {
             child: Text('Character Creation'),
             onPressed: ()  {
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => makeCharacter()
+                  builder: (context) => makeCharacter(load: false,)
               ));
             },
           ),

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 class makeCharacter extends StatefulWidget {
   final String name;
-  final bool load;
+  final bool load ;
   makeCharacter({Key key, this.name, this.load}): super(key:key);
   @override
   _makeCharacterState createState() => _makeCharacterState();
@@ -80,6 +80,11 @@ class _makeCharacterState extends State<makeCharacter> {
   }
   _read() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
+    if (recName == null)
+    {
+      final Nlist = pref.getStringList("Names");
+      recName = Nlist[0];
+    }
     _levelController.text = pref.getString('$recName level');
      _magicController.text = pref.getString('$recName magic');
      _skillController.text = pref.getString('$recName skill');
@@ -99,11 +104,15 @@ class _makeCharacterState extends State<makeCharacter> {
   void initState()
   {
     super.initState();
+    if (widget.load == false)
+    {
+      recName = null;
+    }
     if (widget.load == true)
     {
       recName = widget.name;
-      _read();
     }
+    _read();
   }
   Widget getImageWidget() {
     if (imageFile != null) {
@@ -178,6 +187,10 @@ class _makeCharacterState extends State<makeCharacter> {
             TextField(onChanged: (val) {setState(() => Char = val);}, controller: _charController, decoration: textInputDecor.copyWith(hintText: 'Charisma')),
             TextField(onChanged: (val) {setState(() => skills = val);}, controller: _skillController, decoration: textInputDecor.copyWith(hintText: 'Skills'), keyboardType: TextInputType.multiline, maxLines: null,),
             TextField(onChanged: (val) {setState(() => magic = val);}, controller: _magicController, decoration: textInputDecor.copyWith(hintText: 'Magic'), keyboardType: TextInputType.multiline, maxLines: null,),
+            SizedBox(height: 20.0,),
+            FlatButton( color: Colors.red, child: Text('Save'), onPressed: () async {
+              _save();
+            },),
           ],
         ),
       ),
