@@ -12,6 +12,7 @@ class CharSearch extends StatefulWidget {
 
 class _CharSearch extends State<CharSearch> {
 var name = "";
+bool loadNext = true;
 var names = new List(20);
 String error = "";
 _read() async
@@ -49,7 +50,7 @@ void initState()
                 if (names.contains(name))
                 {
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => makeCharacter()
+                    builder: (context) => makeCharacter(name: name, load: loadNext,)
                 ));
                 }
                 else {

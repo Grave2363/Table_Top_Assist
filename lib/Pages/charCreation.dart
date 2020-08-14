@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 class makeCharacter extends StatefulWidget {
-  final name;
+  final String name;
   final bool load;
   makeCharacter({Key key, this.name, this.load}): super(key:key);
   @override
@@ -100,7 +100,10 @@ class _makeCharacterState extends State<makeCharacter> {
   {
     super.initState();
     if (widget.load == true)
+    {
+      recName = widget.name;
       _read();
+    }
   }
   Widget getImageWidget() {
     if (imageFile != null) {
