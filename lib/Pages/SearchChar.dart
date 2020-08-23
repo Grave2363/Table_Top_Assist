@@ -15,18 +15,13 @@ var name = "";
 bool loadNext = true;
 var names = new List(20);
 String error = "";
-_read() async
-{
-  SharedPreferences pref = await SharedPreferences.getInstance();
-  names = pref.getStringList('Names');
-}
+
 void dispose(){
   super.dispose();
 }
 void initState()
 {
   super.initState();
-    _read();
 }
   @override
   Widget build(BuildContext context) {
@@ -47,17 +42,9 @@ void initState()
               SizedBox(height: 20.0,),
               TextFormField(onChanged: (val) {setState(() => name = val);},validator: (val) => val.isEmpty ? 'Enter a name': null,decoration: textInputDecor.copyWith(hintText: 'name'),),
               FlatButton( color: Colors.red, child: Text('Find Character'),  onPressed: ()  {
-                if (names.contains(name))
-                {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => makeCharacter(name: name, load: loadNext,)
                 ));
-                }
-                else {
-                  setState(() {
-                    error = 'Character has not been created.';
-                    });
-                }
               },
               ),
               SizedBox(height: 15.0,),

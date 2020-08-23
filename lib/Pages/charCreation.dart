@@ -59,7 +59,7 @@ class _makeCharacterState extends State<makeCharacter> {
     if (nameVal.length > 0)
     {
       nameList.add(nameKey);
-      await pref.setStringList('Names', nameList);
+      await pref.setStringList("Names", nameList);
     }
     if (newImg == true)
     {
@@ -82,22 +82,22 @@ class _makeCharacterState extends State<makeCharacter> {
   }
   _read() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
-    if (recName == null)
+    final nList = pref.getStringList("Names") ;
+    if (nList.contains(recName))
     {
-      final Nlist = pref.getStringList("Names");
-      recName = Nlist[0];
+      _nameController.text = recName;
+      _levelController.text = pref.getString('$recName level');
+      _magicController.text = pref.getString('$recName magic');
+      _skillController.text = pref.getString('$recName skill');
+      _classController.text = pref.getString('$recName class');
+      _intController.text = pref.getString('$recName int');
+      _strController.text = pref.getString('$recName str');
+      _dexController.text = pref.getString('$recName dex');
+      _constController.text = pref.getString('$recName const');
+      _wisController.text = pref.getString('$recName wis');
+      _charController.text = pref.getString('$recName char');
+      imgFromPrefs = pref.getString('$recName img');
     }
-    _levelController.text = pref.getString('$recName level');
-     _magicController.text = pref.getString('$recName magic');
-     _skillController.text = pref.getString('$recName skill');
-     _classController.text = pref.getString('$recName class');
-     _intController.text = pref.getString('$recName int');
-     _strController.text = pref.getString('$recName str');
-     _dexController.text = pref.getString('$recName dex');
-     _constController.text = pref.getString('$recName const');
-     _wisController.text = pref.getString('$recName wis');
-     _charController.text = pref.getString('$recName char');
-     imgFromPrefs = pref.getString('$recName img');
   }
   void dispose(){
     super.dispose();
@@ -113,8 +113,9 @@ class _makeCharacterState extends State<makeCharacter> {
     if (widget.load == true)
     {
       recName = widget.name;
+      _read();
     }
-    _read();
+
   }
   Widget getImageWidget() {
     if (imageFile != null) {
