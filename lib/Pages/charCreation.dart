@@ -43,7 +43,11 @@ class _makeCharacterState extends State<makeCharacter> {
   final nameIndex = 'index_of_names';
   _save() async{
     final pref = await SharedPreferences.getInstance();
-    final nameList = pref.getStringList('Names');
+    var nameList = pref.getStringList('Names');
+    if (nameList == null)
+    {
+      nameList = List<String>();
+    }
     final nameKey = '$nameVal';
     final ingKey = '$nameVal img';
     final skillKey = '$nameVal skill';
@@ -58,8 +62,9 @@ class _makeCharacterState extends State<makeCharacter> {
     final levelKey = '$nameVal level';
     if (nameVal.length > 0)
     {
-      nameList.add(nameKey);
+      nameList.add(nameVal);
       await pref.setStringList("Names", nameList);
+      print('Saved name');
     }
     if (newImg == true)
     {
@@ -67,18 +72,19 @@ class _makeCharacterState extends State<makeCharacter> {
       await pref.setString(ingKey, imgString);
       print('$imgString');
       print('$imageFile');
+      print('Saved new Img');
     }
-      if (skills.length > 1){ await pref.setString(skillKey, skills);}
-      if (magic.length > 1){ await pref.setString(magicKey, magic);}
-      if (classes.length > 1){ await pref.setString(classKey, classes);}
+      if (skills.length > 1){ await pref.setString(skillKey, skills); print('Saved Sk');}
+      if (magic.length > 1){ await pref.setString(magicKey, magic); print('Saved Mag');}
+      if (classes.length > 1){ await pref.setString(classKey, classes); print('Saved class');}
       if (Int.length > 1){ await pref.setString(intKey, Int);}
       if (Str.length > 1){ await pref.setString(strKey, Str);}
       if (Dex.length > 1){ await pref.setString(dexKey, Dex);}
       if (Const.length > 1){ await pref.setString(constKey, Const);}
       if (Wis.length > 1){ await pref.setString(wisKey, Wis);}
       if (Char.length > 1){ await pref.setString(charKey, Char);}
-      if (level.length > 1){ await pref.setString(levelKey, level);}
-
+      if (level.length > 1){ await pref.setString(levelKey, level); print('Saved Level');}
+      print('Saving Completed');
   }
   _read() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
