@@ -64,7 +64,7 @@ class _makeCharacterState extends State<makeCharacter> {
     {
       nameList.add(nameVal);
       await pref.setStringList("Names", nameList);
-      print('Saved name');
+      print('Saved name $nameVal');
     }
     if (newImg == true)
     {
@@ -74,16 +74,16 @@ class _makeCharacterState extends State<makeCharacter> {
       print('$imageFile');
       print('Saved new Img');
     }
-      if (skills.length > 1){ await pref.setString(skillKey, skills); print('Saved Sk');}
-      if (magic.length > 1){ await pref.setString(magicKey, magic); print('Saved Mag');}
-      if (classes.length > 1){ await pref.setString(classKey, classes); print('Saved class');}
-      if (Int.length > 1){ await pref.setString(intKey, Int);}
-      if (Str.length > 1){ await pref.setString(strKey, Str);}
-      if (Dex.length > 1){ await pref.setString(dexKey, Dex);}
-      if (Const.length > 1){ await pref.setString(constKey, Const);}
-      if (Wis.length > 1){ await pref.setString(wisKey, Wis);}
-      if (Char.length > 1){ await pref.setString(charKey, Char);}
-      if (level.length > 1){ await pref.setString(levelKey, level); print('Saved Level');}
+      if (skills.length > 0){ await pref.setString(skillKey, skills); print('Saved Sk');}
+      if (magic.length > 0){ await pref.setString(magicKey, magic); print('Saved Mag');}
+      if (classes.length > 0){ await pref.setString(classKey, classes); print('Saved class');}
+      if (Int.length > 0){ await pref.setString(intKey, Int);}
+      if (Str.length > 0){ await pref.setString(strKey, Str);}
+      if (Dex.length > 0){ await pref.setString(dexKey, Dex);}
+      if (Const.length > 0){ await pref.setString(constKey, Const);}
+      if (Wis.length > 0){ await pref.setString(wisKey, Wis);}
+      if (Char.length > 0){ await pref.setString(charKey, Char);}
+      if (level.length > 0){ await pref.setString(levelKey, level); print('Saved Level');}
       print('Saving Completed');
   }
   _read() async {
@@ -200,7 +200,11 @@ class _makeCharacterState extends State<makeCharacter> {
             FlatButton( color: Colors.red, child: Text('Save'), onPressed: () async {
               _save();
             },),
-          ],
+            FlatButton( color: Colors.red, child: Text('Clear Saved Characters'),   onPressed: ()  async{
+              SharedPreferences pref = await SharedPreferences.getInstance();
+              pref.clear();
+      },
+      )],
         ),
       ),
     );
