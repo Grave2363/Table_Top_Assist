@@ -47,8 +47,12 @@ void initState()
                 ));
               },
               ),
-              SizedBox(height: 15.0,),
-              Text(error, style: TextStyle(color: Colors.red, fontSize: 12.0),),
+              FlatButton( color: Colors.red, child: Text('Get Random Character'),  onPressed: ()  {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => makeCharacter(load: loadNext,)
+                ));
+              },
+              ),
             ],
           ),
         ),

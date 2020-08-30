@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 import 'package:rpgcompanion/shared/const.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +7,8 @@ import 'package:image_picker/image_picker.dart';
 class makeCharacter extends StatefulWidget {
   final String name;
   final bool load ;
-  makeCharacter({Key key, this.name, this.load}): super(key:key);
+  final bool rand;
+  makeCharacter({Key key, this.name, this.load, this.rand}): super(key:key);
   @override
   _makeCharacterState createState() => _makeCharacterState();
 }
@@ -89,7 +91,25 @@ class _makeCharacterState extends State<makeCharacter> {
   _read() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     final nList = pref.getStringList("Names") ;
-    if (nList.contains(recName))
+    final _random = new Random();
+    if (widget.rand == true)
+    {
+      int r = nList.length;
+      int i = _random.nextInt(r - 1);
+      _nameController.text = recName;
+      _levelController.text = pref.getString('$recName level');
+      _magicController.text = pref.getString('$recName magic');
+      _skillController.text = pref.getString('$recName skill');
+      _classController.text = pref.getString('$recName class');
+      _intController.text = pref.getString('$recName int');
+      _strController.text = pref.getString('$recName str');
+      _dexController.text = pref.getString('$recName dex');
+      _constController.text = pref.getString('$recName const');
+      _wisController.text = pref.getString('$recName wis');
+      _charController.text = pref.getString('$recName char');
+      imgFromPrefs = pref.getString('$recName img');
+    }
+    else if (nList.contains(recName))
     {
       _nameController.text = recName;
       _levelController.text = pref.getString('$recName level');
