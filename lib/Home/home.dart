@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rpgcompanion/Pages/Dice.dart';
+import 'package:rpgcompanion/Pages/LoadMap.dart';
+import 'package:rpgcompanion/Pages/MapSave.dart';
 import 'package:rpgcompanion/Pages/SearchChar.dart';
 import 'package:rpgcompanion/Pages/charCreation.dart';
 import 'package:rpgcompanion/Pages/editNote.dart';
@@ -60,6 +62,24 @@ class home extends StatelessWidget {
             onPressed: ()  {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => editNote()
+              ));
+            },
+          ),
+          FlatButton(
+            color: Colors.red,
+            child: Text('      Save Map Image      '),
+            onPressed: ()  {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => MapSave()
+              ));
+            },
+          ),
+          FlatButton(
+            color: Colors.red,
+            child: Text('  View Maps  '),
+            onPressed: ()  {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => LoadMap()
               ));
             },
           ),

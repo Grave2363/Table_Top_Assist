@@ -13,14 +13,29 @@ class _editNoteState extends State<editNote> {
   String selName = '';
   String initName = '';
   String noteContents = '';
+  bool finding = false;
   final _titleController = TextEditingController();
   final _contentsController = TextEditingController();
+  final _findNoteController = TextEditingController();
   _read() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
       names =  pref.getStringList('index_of_keys');
       if (names == null){ names = new List<String>(); names.add('New Note');}
-      if (i < names.length && names.length != null){selName = names[i];
-      noteContents = pref.getString('$selName');}
+      if (finding == true)
+      {// display note if it exists in the list
+        if (names.contains( _findNoteController.text))
+        {
+          noteContents = pref.getString(_findNoteController.text);
+          _titleController.text = _findNoteController.text;
+          _contentsController.text = noteContents;
+        }
+        finding = false;
+      }
+      else if (i < names.length && names.length != null)
+      {
+        selName = names[i];
+      noteContents = pref.getString('$selName');
+      }
       _titleController.text = selName;
       _contentsController.text = noteContents;
   }
@@ -63,6 +78,7 @@ class _editNoteState extends State<editNote> {
         children: <Widget>[
           TextField(onChanged: (val) {setState(() => selName = val);},controller: _titleController ,decoration: textInputDecor.copyWith(hintText: 'Title of Note')),
           TextField(onChanged: (val) {setState(() => noteContents = val);},controller: _contentsController ,decoration: textInputDecor.copyWith(hintText: 'Contents of Note'), keyboardType: TextInputType.multiline, maxLines: null,),
+          TextField(onChanged: (val) {setState(() => selName = val);},controller: _findNoteController ,decoration: textInputDecor.copyWith(hintText: 'Title of Note to Find')),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
@@ -71,6 +87,10 @@ class _editNoteState extends State<editNote> {
                 child: Text('Clear Notes'),
                 onPressed: ()  {
                   _clear();
+                  _titleController.text = '';
+                  _contentsController.text = '';
+                  selName = '';
+                  noteContents = '';
                 },
               ),
               FlatButton(
@@ -94,6 +114,17 @@ class _editNoteState extends State<editNote> {
                   noteContents = '';
                 },
               ),
+              FlatButton(
+                color: Colors.red,
+                child: Text('Find Note'),
+                onPressed: ()  {
+                  setState(() {
+                    finding = true;
+                    _read();
+                  });
+                },
+              ),
+              // error should be displayed if note was not found
             ],
           ),
         ],
