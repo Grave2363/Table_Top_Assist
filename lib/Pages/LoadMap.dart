@@ -1,9 +1,12 @@
+import 'dart:io';
+import 'dart:math';
+import 'package:rpgcompanion/shared/const.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:rpgcompanion/Authenticate/regester.dart';
 import 'package:rpgcompanion/servicces/auth.dart';
-import 'package:rpgcompanion/shared/const.dart';
 import 'package:rpgcompanion/shared/loading.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'MapSave.dart';
 class LoadMap extends StatefulWidget {
   @override
@@ -14,6 +17,10 @@ class _LoadMap extends State<LoadMap> {
   bool loadNext = true;
   var names = new List(20);
   String error = "";
+  File imageFile ;
+  String imgFromPrefs;
+  bool processing = false;
+
 
   void dispose(){
     super.dispose();
@@ -22,6 +29,7 @@ class _LoadMap extends State<LoadMap> {
   {
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

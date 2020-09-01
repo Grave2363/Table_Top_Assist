@@ -10,16 +10,10 @@ class MapSave extends StatefulWidget {
   final bool rand;
   MapSave({Key key, this.name, this.load, this.rand}): super(key:key);
   @override
-  _MapSave _createState() => _MapSave();
-
-  @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-    throw UnimplementedError();
-  }
+  _MapSaveState createState() => _MapSaveState();
 }
 
-class _MapSave extends State<MapSave> {
+class _MapSaveState extends State<MapSave> {
   File imageFile ;
   String imgFromPrefs;
   bool processing = false;
@@ -27,6 +21,8 @@ class _MapSave extends State<MapSave> {
   String imgString = "";
   String nameVal = "";
   bool newImg = false;
+  bool rand = false;
+  bool searching = false;
   final _nameController = TextEditingController();
   final nameIndex = 'index_of_names';
   _save() async{
@@ -58,14 +54,14 @@ class _MapSave extends State<MapSave> {
     SharedPreferences pref = await SharedPreferences.getInstance();
     final nList = pref.getStringList("Names") ;
     final _random = new Random();
-    if (widget.rand == true)
+    if (rand == true)
     {
       int r = nList.length;
       int i = _random.nextInt(r - 1);
       _nameController.text = recName;
       imgFromPrefs = pref.getString('$recName img');
     }
-    else if (nList.contains(recName))
+    else if (nList.contains(recName) )
     {
       _nameController.text = recName;
       imgFromPrefs = pref.getString('$recName img');
@@ -78,11 +74,11 @@ class _MapSave extends State<MapSave> {
   void initState()
   {
     super.initState();
-    if (widget.load == false)
+    if (searching == false)
     {
-      recName = null;
+      recName = '';
     }
-    if (widget.load == true)
+    if (searching == true)
     {
       recName = widget.name;
       _read();
@@ -155,6 +151,18 @@ class _MapSave extends State<MapSave> {
             SizedBox(height: 20.0,),
             FlatButton( color: Colors.red, child: Text('Save'), onPressed: () async {
               _save();
+            },),
+            FlatButton( color: Colors.red, child: Text('Search for Img'), onPressed: () async {
+              setState(() {
+                searching = true;
+                _read();
+              });
+            },),
+            FlatButton( color: Colors.red, child: Text('Get Random Img'), onPressed: () async {
+              setState(() {
+                rand = true;
+                _read();
+              });
             },),
             FlatButton( color: Colors.red, child: Text('Clear Saved Maps'),   onPressed: ()  async{
               SharedPreferences pref = await SharedPreferences.getInstance();

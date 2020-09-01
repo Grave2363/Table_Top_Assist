@@ -82,48 +82,66 @@ class _editNoteState extends State<editNote> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              FlatButton(
-                color: Colors.red,
-                child: Text('Clear Notes'),
-                onPressed: ()  {
-                  _clear();
-                  _titleController.text = '';
-                  _contentsController.text = '';
-                  selName = '';
-                  noteContents = '';
-                },
+              Column(
+                children: <Widget>[
+                  FlatButton(
+                    color: Colors.red,
+                    child: Text('Clear Notes'),
+                    onPressed: ()  {
+                      _clear();
+                      _titleController.text = '';
+                      _contentsController.text = '';
+                      selName = '';
+                      noteContents = '';
+                    },
+                  ),
+                  FlatButton(
+                    color: Colors.red,
+                    child: Text('Next Note'),
+                    onPressed: ()  {
+                      setState(() {
+                        i = i +1;
+                        _read();
+                      });
+                    },
+                  ),
+                  FlatButton(
+                    color: Colors.red,
+                    child: Text('New Note'),
+                    onPressed: ()  {
+                      _save();
+                      _titleController.text = '';
+                      _contentsController.text = '';
+                      selName = '';
+                      noteContents = '';
+                    },
+                  ),
+                ],
               ),
-              FlatButton(
-                color: Colors.red,
-                child: Text('Next Note'),
-                onPressed: ()  {
-                  setState(() {
-                    i = i +1;
-                    _read();
-                  });
-                },
-              ),
-              FlatButton(
-                color: Colors.red,
-                child: Text('New Note'),
-                onPressed: ()  {
-                  _save();
-                  _titleController.text = '';
-                  _contentsController.text = '';
-                  selName = '';
-                  noteContents = '';
-                },
-              ),
-              FlatButton(
-                color: Colors.red,
-                child: Text('Find Note'),
-                onPressed: ()  {
-                  setState(() {
-                    finding = true;
-                    _read();
-                  });
-                },
-              ),
+             Column(
+               children: <Widget>[
+                 FlatButton(
+                   color: Colors.red,
+                   child: Text('Find Note'),
+                   onPressed: ()  {
+                     setState(() {
+                       finding = true;
+                       i = 0;
+                       _read();
+                     });
+                   },
+                 ),
+                 FlatButton(
+                   color: Colors.red,
+                   child: Text('Save Note'),
+                   onPressed: ()  {
+                     setState(() {
+                       _save();
+                     });
+                   },
+                 ),
+               ],
+             ),
               // error should be displayed if note was not found
             ],
           ),

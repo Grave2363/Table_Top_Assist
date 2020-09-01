@@ -31,19 +31,10 @@ class home extends StatelessWidget {
         children: <Widget>[
           FlatButton(
             color: Colors.red,
-            child: Text('Character Creation'),
+            child: Text('Character Sheets'),
             onPressed: ()  {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => makeCharacter(load: false,)
-              ));
-            },
-          ),
-          FlatButton(
-            color: Colors.red,
-            child: Text('  View Characters  '),
-            onPressed: ()  {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => CharSearch()
               ));
             },
           ),
@@ -67,19 +58,10 @@ class home extends StatelessWidget {
           ),
           FlatButton(
             color: Colors.red,
-            child: Text('      Save Map Image      '),
+            child: Text('  Save and  View Images  '),
             onPressed: ()  {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => MapSave()
-              ));
-            },
-          ),
-          FlatButton(
-            color: Colors.red,
-            child: Text('  View Maps  '),
-            onPressed: ()  {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => LoadMap()
               ));
             },
           ),

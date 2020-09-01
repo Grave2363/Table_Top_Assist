@@ -30,6 +30,8 @@ class _makeCharacterState extends State<makeCharacter> {
   String level = '';
   String skills = '';
   String magic = '';
+  bool rand = false;
+  bool searching = false;
   bool newImg = false;
   final _nameController = TextEditingController();
   final _levelController = TextEditingController();
@@ -92,37 +94,39 @@ class _makeCharacterState extends State<makeCharacter> {
     SharedPreferences pref = await SharedPreferences.getInstance();
     final nList = pref.getStringList("Names") ;
     final _random = new Random();
-    if (widget.rand == true)
+    if (rand == true)
     {
       int r = nList.length;
       int i = _random.nextInt(r - 1);
-      _nameController.text = recName;
-      _levelController.text = pref.getString('$recName level');
-      _magicController.text = pref.getString('$recName magic');
-      _skillController.text = pref.getString('$recName skill');
-      _classController.text = pref.getString('$recName class');
-      _intController.text = pref.getString('$recName int');
-      _strController.text = pref.getString('$recName str');
-      _dexController.text = pref.getString('$recName dex');
-      _constController.text = pref.getString('$recName const');
-      _wisController.text = pref.getString('$recName wis');
-      _charController.text = pref.getString('$recName char');
-      imgFromPrefs = pref.getString('$recName img');
+      nameVal = nList[i];
+      _nameController.text = nameVal;
+      _levelController.text = pref.getString('$nameVal level');
+      _magicController.text = pref.getString('$nameVal magic');
+      _skillController.text = pref.getString('$nameVal skill');
+      _classController.text = pref.getString('$nameVal class');
+      _intController.text = pref.getString('$nameVal int');
+      _strController.text = pref.getString('$nameVal str');
+      _dexController.text = pref.getString('$nameVal dex');
+      _constController.text = pref.getString('$nameVal const');
+      _wisController.text = pref.getString('$nameVal wis');
+      _charController.text = pref.getString('$nameVal char');
+      imgFromPrefs = pref.getString('$nameVal img');
     }
-    else if (nList.contains(recName))
+    else if (nList.contains(nameVal) && searching == true)
     {
-      _nameController.text = recName;
-      _levelController.text = pref.getString('$recName level');
-      _magicController.text = pref.getString('$recName magic');
-      _skillController.text = pref.getString('$recName skill');
-      _classController.text = pref.getString('$recName class');
-      _intController.text = pref.getString('$recName int');
-      _strController.text = pref.getString('$recName str');
-      _dexController.text = pref.getString('$recName dex');
-      _constController.text = pref.getString('$recName const');
-      _wisController.text = pref.getString('$recName wis');
-      _charController.text = pref.getString('$recName char');
-      imgFromPrefs = pref.getString('$recName img');
+      _nameController.text = nameVal;
+      _levelController.text = pref.getString('$nameVal level');
+      _magicController.text = pref.getString('$nameVal magic');
+      _skillController.text = pref.getString('$nameVal skill');
+      _classController.text = pref.getString('$nameVal class');
+      _intController.text = pref.getString('$nameVal int');
+      _strController.text = pref.getString('$nameVal str');
+      _dexController.text = pref.getString('$nameVal dex');
+      _constController.text = pref.getString('$nameVal const');
+      _wisController.text = pref.getString('$nameVal wis');
+      _charController.text = pref.getString('$nameVal char');
+      imgFromPrefs = pref.getString('$nameVal img');
+      searching = false;
     }
   }
   void dispose(){
@@ -132,16 +136,6 @@ class _makeCharacterState extends State<makeCharacter> {
   void initState()
   {
     super.initState();
-    if (widget.load == false)
-    {
-      recName = null;
-    }
-    if (widget.load == true)
-    {
-      recName = widget.name;
-      _read();
-    }
-
   }
   Widget getImageWidget() {
     if (imageFile != null) {
@@ -190,15 +184,27 @@ class _makeCharacterState extends State<makeCharacter> {
     return Scaffold(
         backgroundColor: Colors.blueGrey,
         appBar: AppBar(
-        backgroundColor: Colors.red,
-        elevation: 0.0,
-        title: Text('RPG Companion'),
+         backgroundColor: Colors.red,
+         elevation: 0.0,
+         title: Text('RPG Companion'),
     ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             TextField(onChanged: (val) {setState(() => nameVal = val);}, controller: _nameController, decoration: textInputDecor.copyWith(hintText: 'Name')),
+            FlatButton( color: Colors.red, child: Text('Get Character'),   onPressed: ()  async{
+              setState(() {
+                searching = true;
+                _read();
+              });
+            },),
+            FlatButton( color: Colors.red, child: Text('Get Random Character'),   onPressed: ()  async{
+              setState(() {
+                rand = true;
+                _read();
+              });
+            },),
             FlatButton(
              color: Colors.red, child: Text('Get Image From Gallery'),
               onPressed: (){
@@ -223,8 +229,8 @@ class _makeCharacterState extends State<makeCharacter> {
             FlatButton( color: Colors.red, child: Text('Clear Saved Characters'),   onPressed: ()  async{
               SharedPreferences pref = await SharedPreferences.getInstance();
               pref.clear();
-      },
-      )],
+      },)
+          ],
         ),
       ),
     );
