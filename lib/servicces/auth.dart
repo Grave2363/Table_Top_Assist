@@ -31,8 +31,6 @@ class AuthSer {
     try{
       AuthResult res = await _auth.signInWithEmailAndPassword(email: email, password: pass);
       FirebaseUser user = res.user;
-      // create new doc for user with uid
-      await databaseService(uid: user.uid).uploadData(null, '0', '0', '0', '0', '0', '0', 'Dead adventurer', 'none', 'none');
       return _userfirebaseUser(user);
     }catch(e){
       print('error');
@@ -50,7 +48,12 @@ class AuthSer {
       print(e.toString());
     }
   }
-
+  Future getUserInfo() async
+  {
+    final FirebaseUser user = await _auth.currentUser();
+    final email = user.email;
+    return email;
+  }
   //sign out
   Future signOut() async{
     try{

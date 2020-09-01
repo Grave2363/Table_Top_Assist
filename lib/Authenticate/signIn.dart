@@ -3,6 +3,7 @@ import 'package:rpgcompanion/Authenticate/regester.dart';
 import 'package:rpgcompanion/servicces/auth.dart';
 import 'package:rpgcompanion/shared/const.dart';
 import 'package:rpgcompanion/shared/loading.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 class signIn extends StatefulWidget {
   final Function toggleView;
   signIn({this.toggleView });

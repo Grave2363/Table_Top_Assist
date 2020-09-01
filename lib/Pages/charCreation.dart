@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:math';
+import 'package:rpgcompanion/servicces/databade.dart';
 import 'package:rpgcompanion/shared/const.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
@@ -179,6 +180,7 @@ class _makeCharacterState extends State<makeCharacter> {
       });
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -205,13 +207,6 @@ class _makeCharacterState extends State<makeCharacter> {
                 _read();
               });
             },),
-            FlatButton(
-             color: Colors.red, child: Text('Get Image From Gallery'),
-              onPressed: (){
-               getImage(ImageSource.gallery);
-                },
-             ),
-            getImageWidget(),
             TextField(onChanged: (val) {setState(() => level = val);}, controller: _levelController, decoration: textInputDecor.copyWith(hintText: 'Level')),
             TextField(onChanged: (val) {setState(() => classes = val);}, controller: _classController, decoration: textInputDecor.copyWith(hintText: 'Classes'), keyboardType: TextInputType.multiline, maxLines: null,),
             TextField(onChanged: (val) {setState(() => Str = val);}, controller: _strController, decoration: textInputDecor.copyWith(hintText: 'Strength')),
@@ -226,10 +221,24 @@ class _makeCharacterState extends State<makeCharacter> {
             FlatButton( color: Colors.red, child: Text('Save'), onPressed: () async {
               _save();
             },),
+            FlatButton(
+              color: Colors.red, child: Text('Get Image From Gallery'),
+              onPressed: (){
+                getImage(ImageSource.gallery);
+              },
+            ),
+            getImageWidget(),
             FlatButton( color: Colors.red, child: Text('Clear Saved Characters'),   onPressed: ()  async{
               SharedPreferences pref = await SharedPreferences.getInstance();
               pref.clear();
-      },)
+      },),
+            FlatButton(
+              color: Colors.red, child: Text('Upload Sheet'),
+              onPressed: (){
+                databaseService().uploadData( _strController.text, _intController.text, _constController.text, _wisController.text, _dexController.text,
+                    _charController.text, _nameController.text, _skillController.text, _magicController.text);
+              },
+            ),
           ],
         ),
       ),
