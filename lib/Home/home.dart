@@ -1,16 +1,40 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rpgcompanion/Pages/Dice.dart';
-import 'package:rpgcompanion/Pages/LoadMap.dart';
 import 'package:rpgcompanion/Pages/MapSave.dart';
-import 'package:rpgcompanion/Pages/SearchChar.dart';
 import 'package:rpgcompanion/Pages/charCreation.dart';
 import 'package:rpgcompanion/Pages/editNote.dart';
-import 'package:rpgcompanion/Pages/noteMain.dart';
 import 'package:rpgcompanion/servicces/auth.dart';
+import 'package:rpgcompanion/shared/const.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-class home extends StatelessWidget {
+class home extends StatefulWidget {
+  @override
+  _homeState createState() => _homeState();
+}
+
+class _homeState extends State<home> {
   final AuthSer _auth = AuthSer();
+  String User = '';
+  final _userController = TextEditingController();
+  void initState()
+  {
+    super.initState();
+    _read();
+  }
+  void dispose(){
+    super.dispose();
+    _save();
+  }
+  _read() async
+  {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    User = pref.getString('User');
+  }
+  _save() async
+  {
+    final pref = await SharedPreferences.getInstance();
+    await pref.setString('User', User);
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,12 +53,13 @@ class home extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
+          TextField(onChanged: (val) {setState(() => User = val);},controller: _userController ,decoration: textInputDecor.copyWith(hintText: 'Desired User Name')),
           FlatButton(
             color: Colors.red,
             child: Text('Character Sheets'),
             onPressed: ()  {
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => makeCharacter(load: false,)
+                  builder: (context) => makeCharacter(load: false,name: User,)
               ));
             },
           ),

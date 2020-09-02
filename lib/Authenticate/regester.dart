@@ -16,6 +16,7 @@ class _RegesterState extends State<Regester> {
   String email = '';
   String password = '';
   String error = '';
+
   @override
   Widget build(BuildContext context) {
     return load ? Load(): Scaffold(

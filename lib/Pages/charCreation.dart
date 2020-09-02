@@ -1,5 +1,8 @@
 import 'dart:io';
 import 'dart:math';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:rpgcompanion/servicces/auth.dart';
 import 'package:rpgcompanion/servicces/databade.dart';
 import 'package:rpgcompanion/shared/const.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -15,6 +18,7 @@ class makeCharacter extends StatefulWidget {
 }
 
 class _makeCharacterState extends State<makeCharacter> {
+  final AuthSer _auth = AuthSer();
   File imageFile ;
   String imgFromPrefs;
   bool processing = false;
@@ -138,7 +142,7 @@ class _makeCharacterState extends State<makeCharacter> {
   {
     super.initState();
   }
-  Widget getImageWidget() {
+   Widget getImageWidget() {
     if (imageFile != null) {
       return Image.file(
         imageFile,
@@ -180,7 +184,6 @@ class _makeCharacterState extends State<makeCharacter> {
       });
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -195,18 +198,31 @@ class _makeCharacterState extends State<makeCharacter> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             TextField(onChanged: (val) {setState(() => nameVal = val);}, controller: _nameController, decoration: textInputDecor.copyWith(hintText: 'Name')),
-            FlatButton( color: Colors.red, child: Text('Get Character'),   onPressed: ()  async{
-              setState(() {
-                searching = true;
-                _read();
-              });
-            },),
-            FlatButton( color: Colors.red, child: Text('Get Random Character'),   onPressed: ()  async{
-              setState(() {
-                rand = true;
-                _read();
-              });
-            },),
+            FlatButton(
+              color: Colors.red, child: Text('Get Image From Gallery'),
+              onPressed: (){
+                getImage(ImageSource.gallery);
+              },
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                FlatButton( color: Colors.red, child: Text('Get Character'),   onPressed: ()  async{
+                  setState(() {
+                    searching = true;
+                    _read();
+                  });
+                },),
+                FlatButton( color: Colors.red, child: Text('Get Random Character'),   onPressed: ()  async{
+                  setState(() {
+                    rand = true;
+                    _read();
+                  });
+                },),
+              ],
+            ),
+            getImageWidget(),
             TextField(onChanged: (val) {setState(() => level = val);}, controller: _levelController, decoration: textInputDecor.copyWith(hintText: 'Level')),
             TextField(onChanged: (val) {setState(() => classes = val);}, controller: _classController, decoration: textInputDecor.copyWith(hintText: 'Classes'), keyboardType: TextInputType.multiline, maxLines: null,),
             TextField(onChanged: (val) {setState(() => Str = val);}, controller: _strController, decoration: textInputDecor.copyWith(hintText: 'Strength')),
@@ -221,22 +237,23 @@ class _makeCharacterState extends State<makeCharacter> {
             FlatButton( color: Colors.red, child: Text('Save'), onPressed: () async {
               _save();
             },),
-            FlatButton(
-              color: Colors.red, child: Text('Get Image From Gallery'),
-              onPressed: (){
-                getImage(ImageSource.gallery);
-              },
-            ),
-            getImageWidget(),
             FlatButton( color: Colors.red, child: Text('Clear Saved Characters'),   onPressed: ()  async{
               SharedPreferences pref = await SharedPreferences.getInstance();
               pref.clear();
       },),
             FlatButton(
               color: Colors.red, child: Text('Upload Sheet'),
-              onPressed: (){
-                databaseService().uploadData( _strController.text, _intController.text, _constController.text, _wisController.text, _dexController.text,
-                    _charController.text, _nameController.text, _skillController.text, _magicController.text);
+              onPressed: () async{
+                if (_auth.IsUserAnon())
+                {
+                  databaseService().uploadData( widget.name,_strController.text, _intController.text, _constController.text, _wisController.text, _dexController.text,
+                      _charController.text, _nameController.text, _skillController.text, _magicController.text);
+                }
+                else
+                  {
+                    Fluttertoast.showToast(msg: "Can't save, you are Anonymous");
+                  }
+
               },
             ),
           ],

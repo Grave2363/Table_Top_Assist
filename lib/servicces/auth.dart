@@ -4,6 +4,7 @@ import 'package:rpgcompanion/model/user.dart';
 import 'package:rpgcompanion/servicces/databade.dart';
 class AuthSer {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  bool isAnon = false;
   //auth user change
   Stream<User> get user {
     return _auth.onAuthStateChanged.map(_userfirebaseUser);
@@ -13,6 +14,8 @@ class AuthSer {
     try{
      AuthResult res = await _auth.signInAnonymously();
      FirebaseUser user = res.user;
+     print(user.email);
+     isAnon = true;
      return _userfirebaseUser(user);
     }
     catch(e){
@@ -48,11 +51,9 @@ class AuthSer {
       print(e.toString());
     }
   }
-  Future getUserInfo() async
+  bool IsUserAnon()
   {
-    final FirebaseUser user = await _auth.currentUser();
-    final email = user.email;
-    return email;
+    return isAnon;
   }
   //sign out
   Future signOut() async{

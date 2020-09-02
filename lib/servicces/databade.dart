@@ -8,9 +8,9 @@ class databaseService {
   final String uid;
   databaseService({this.uid});
   // collection ref
-  final CollectionReference characterCollection =  Firestore.instance.collection('Character').reference();
-  Future uploadData( String strength, String intelligence, String constitution, String wisdom, String dexterity, String charisma, String name, String skills, String magic ) async{
-    return await characterCollection.document(uid).setData({
+  CollectionReference characterCollection =  Firestore.instance.collection('Characters').reference();
+  Future uploadData( String username,String strength, String intelligence, String constitution, String wisdom, String dexterity, String charisma, String name, String skills, String magic ) async{
+    return await characterCollection.document(username).setData({
       'Name': name,
       'Strength' : strength,
       'Intelligence' : intelligence,

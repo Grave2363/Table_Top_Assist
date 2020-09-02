@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rpgcompanion/Authenticate/regester.dart';
+import 'package:rpgcompanion/Home/home.dart';
 import 'package:rpgcompanion/servicces/auth.dart';
 import 'package:rpgcompanion/shared/const.dart';
 import 'package:rpgcompanion/shared/loading.dart';
@@ -64,7 +65,7 @@ class _signInState extends State<signIn> {
                     print('error');
                   }
                   else{
-                    print('signed In');
+                    print('signed In Anon');
                     print(res.uid);
                   }
                 },
