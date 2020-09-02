@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rpgcompanion/Pages/Dice.dart';
 import 'package:rpgcompanion/Pages/MapSave.dart';
+import 'package:rpgcompanion/Pages/Profile.dart';
 import 'package:rpgcompanion/Pages/charCreation.dart';
 import 'package:rpgcompanion/Pages/editNote.dart';
 import 'package:rpgcompanion/servicces/auth.dart';
@@ -28,7 +29,7 @@ class _homeState extends State<home> {
   _read() async
   {
     SharedPreferences pref = await SharedPreferences.getInstance();
-    User = pref.getString('User');
+    _userController.text = pref.getString('User');
   }
   _save() async
   {
@@ -54,6 +55,15 @@ class _homeState extends State<home> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           TextField(onChanged: (val) {setState(() => User = val);},controller: _userController ,decoration: textInputDecor.copyWith(hintText: 'Desired User Name')),
+          FlatButton(
+            color: Colors.red,
+            child: Text('Profile'),
+            onPressed: ()  {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => profile(name: User,)
+              ));
+            },
+          ),
           FlatButton(
             color: Colors.red,
             child: Text('Character Sheets'),

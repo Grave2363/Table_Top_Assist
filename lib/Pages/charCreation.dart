@@ -19,6 +19,7 @@ class makeCharacter extends StatefulWidget {
 
 class _makeCharacterState extends State<makeCharacter> {
   final AuthSer _auth = AuthSer();
+  int i = 0;
   File imageFile ;
   String imgFromPrefs;
   bool processing = false;
@@ -35,6 +36,7 @@ class _makeCharacterState extends State<makeCharacter> {
   String level = '';
   String skills = '';
   String magic = '';
+  bool next = false;
   bool rand = false;
   bool searching = false;
   bool newImg = false;
@@ -102,7 +104,7 @@ class _makeCharacterState extends State<makeCharacter> {
     if (rand == true)
     {
       int r = nList.length;
-      int i = _random.nextInt(r - 1);
+       i = _random.nextInt(r - 1);
       nameVal = nList[i];
       _nameController.text = nameVal;
       _levelController.text = pref.getString('$nameVal level');
@@ -116,6 +118,28 @@ class _makeCharacterState extends State<makeCharacter> {
       _wisController.text = pref.getString('$nameVal wis');
       _charController.text = pref.getString('$nameVal char');
       imgFromPrefs = pref.getString('$nameVal img');
+      rand = false;
+    }
+    else if (next == true)
+    {
+      int r = nList.length;
+      i += 1;
+      nameVal = nList[i];
+      if (i >= r){ i = 0;}
+      _nameController.text = nameVal;
+      _levelController.text = pref.getString('$nameVal level');
+      _magicController.text = pref.getString('$nameVal magic');
+      _skillController.text = pref.getString('$nameVal skill');
+      _classController.text = pref.getString('$nameVal class');
+      _intController.text = pref.getString('$nameVal int');
+      _strController.text = pref.getString('$nameVal str');
+      _dexController.text = pref.getString('$nameVal dex');
+      _constController.text = pref.getString('$nameVal const');
+      _wisController.text = pref.getString('$nameVal wis');
+      _charController.text = pref.getString('$nameVal char');
+      imgFromPrefs = pref.getString('$nameVal img');
+      next = false;
+      setState(() {});
     }
     else if (nList.contains(nameVal) && searching == true)
     {
@@ -132,6 +156,7 @@ class _makeCharacterState extends State<makeCharacter> {
       _charController.text = pref.getString('$nameVal char');
       imgFromPrefs = pref.getString('$nameVal img');
       searching = false;
+      setState(() {});
     }
   }
   void dispose(){
@@ -214,11 +239,15 @@ class _makeCharacterState extends State<makeCharacter> {
                     _read();
                   });
                 },),
-                FlatButton( color: Colors.red, child: Text('Get Random Character'),   onPressed: ()  async{
+                FlatButton( color: Colors.red, child: Text('Random Character'),   onPressed: ()  async{
                   setState(() {
                     rand = true;
                     _read();
                   });
+                },),
+                FlatButton( color: Colors.red, child: Text('Next Character'), onPressed: () async {
+                  next = true;
+                  _read();
                 },),
               ],
             ),
@@ -244,9 +273,9 @@ class _makeCharacterState extends State<makeCharacter> {
             FlatButton(
               color: Colors.red, child: Text('Upload Sheet'),
               onPressed: () async{
-                if (_auth.IsUserAnon())
+                if (_auth.IsUserAnon() == false)
                 {
-                  databaseService().uploadData( widget.name,_strController.text, _intController.text, _constController.text, _wisController.text, _dexController.text,
+                  databaseService().uploadData( i,widget.name,_strController.text, _intController.text, _constController.text, _wisController.text, _dexController.text,
                       _charController.text, _nameController.text, _skillController.text, _magicController.text);
                 }
                 else

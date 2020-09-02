@@ -34,6 +34,7 @@ class AuthSer {
     try{
       AuthResult res = await _auth.signInWithEmailAndPassword(email: email, password: pass);
       FirebaseUser user = res.user;
+      isAnon = false;
       return _userfirebaseUser(user);
     }catch(e){
       print('error');

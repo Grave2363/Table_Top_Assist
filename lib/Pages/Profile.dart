@@ -15,6 +15,8 @@ class profile extends StatefulWidget {
 }
 
 class _profileState extends State<profile> {
+  String User = '';
+  final _userController = TextEditingController();
   File imageFile ;
   String imgFromPrefs;
   bool processing = false;
@@ -28,11 +30,10 @@ class _profileState extends State<profile> {
         imageFile,
         width: 250,
         height: 250,
-        fit: BoxFit.cover,
-      );
+        fit: BoxFit.cover,);
     }
     else if (imgFromPrefs != null){
-      return Image.file(File(imgFromPrefs) ,
+      return Image.asset(imgFromPrefs ,
         width: 250,
         height: 250,
         fit: BoxFit.cover,);
@@ -63,23 +64,58 @@ class _profileState extends State<profile> {
       });
     }
   }
-  _read() async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-  }
-  _save() async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-  }
-  void dispose(){
-    super.dispose();
-    _save();
-  }
   void initState()
   {
     super.initState();
     _read();
   }
+  void dispose(){
+    super.dispose();
+    _save();
+  }
+  _read() async
+  {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    _userController.text = pref.getString('User');
+    imgFromPrefs = pref.getString('User Pic');
+    imgFromPrefs.replaceAll('\'', '');
+    imgFromPrefs.replaceAll('\"', '');
+    imgFromPrefs.replaceAll("File:", '');
+    if (widget.name != null)
+    {
+      _userController.text = widget.name;
+    }
+    setState(() {});
+  }
+  _save() async
+  {
+    final pref = await SharedPreferences.getInstance();
+    await pref.setString('User', _userController.text);
+    await pref.setString('User Pic', imageFile.path);
+  }
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+        backgroundColor: Colors.blueGrey,
+        appBar: AppBar(
+        backgroundColor: Colors.red,
+        elevation: 0.0,
+        title: Text('RPG Companion'),
+    ),
+     body: SingleChildScrollView(
+      child: Column(
+        children: <Widget>[
+          TextField(onChanged: (val) {setState(() => User = val);},controller: _userController ,decoration: textInputDecor.copyWith(hintText: 'Profile Name')),
+          FlatButton(
+            color: Colors.red, child: Text('Get Image From Gallery'),
+            onPressed: (){
+              getImage(ImageSource.gallery);
+            },
+          ),
+          getImageWidget(),
+        ],
+      ),
+    ),
+    );
   }
 }
