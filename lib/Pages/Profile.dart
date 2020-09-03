@@ -33,7 +33,7 @@ class _profileState extends State<profile> {
         fit: BoxFit.cover,);
     }
     else if (imgFromPrefs != null){
-      return Image.asset(imgFromPrefs ,
+      return Image.asset(imgFromPrefs.toString() ,
         width: 250,
         height: 250,
         fit: BoxFit.cover,);

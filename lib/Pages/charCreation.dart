@@ -146,7 +146,7 @@ class _makeCharacterState extends State<makeCharacter> {
       _nameController.text = nameVal;
       _levelController.text = pref.getString('$nameVal level');
       _magicController.text = pref.getString('$nameVal magic');
-      _skillController.text = pref.getString('$nameVal skill');
+      _skillController.text = pref.getString(('$nameVal magic'));
       _classController.text = pref.getString('$nameVal class');
       _intController.text = pref.getString('$nameVal int');
       _strController.text = pref.getString('$nameVal str');
@@ -158,6 +158,31 @@ class _makeCharacterState extends State<makeCharacter> {
       searching = false;
       setState(() {});
     }
+  }
+  void deleteChar() async
+  {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    final nList = pref.getStringList("Names");
+    List<String> cpyList = List<String>(nList.length);
+    pref.remove('$nameVal level');
+    pref.remove('$nameVal magic');
+    pref.remove(('$nameVal magic'));
+    pref.remove('$nameVal class');
+    pref.remove('$nameVal int');
+    pref.remove('$nameVal str');
+    pref.remove('$nameVal dex');
+    pref.remove('$nameVal const');
+    pref.remove('$nameVal wis');
+    pref.remove('$nameVal char');
+    pref.remove('$nameVal img');
+    for (int i = 0; i < nList.length; i++)
+    {
+      if (nList[i] != nameVal)
+      {
+        cpyList.add(nList[i]);
+      }
+    }
+    await pref.setStringList("Names", cpyList);
   }
   void dispose(){
     super.dispose();
@@ -177,7 +202,7 @@ class _makeCharacterState extends State<makeCharacter> {
       );
     }
     else if (imgFromPrefs != null){
-      return Image.file(File(imgFromPrefs) ,
+      return Image.asset(imgFromPrefs.toString() ,
         width: 250,
         height: 250,
         fit: BoxFit.cover,);
@@ -266,10 +291,9 @@ class _makeCharacterState extends State<makeCharacter> {
             FlatButton( color: Colors.red, child: Text('Save'), onPressed: () async {
               _save();
             },),
-            FlatButton( color: Colors.red, child: Text('Clear Saved Characters'),   onPressed: ()  async{
-              SharedPreferences pref = await SharedPreferences.getInstance();
-              pref.clear();
-      },),
+            FlatButton( color: Colors.red, child: Text('Delete this Character'),   onPressed: ()  async{
+              deleteChar();
+             },),
             FlatButton(
               color: Colors.red, child: Text('Upload Sheet'),
               onPressed: () async{
