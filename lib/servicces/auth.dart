@@ -41,6 +41,10 @@ class AuthSer {
       print(e.toString());
     }
   }
+  Future resetPass(String email)async
+  {
+    await _auth.sendPasswordResetEmail(email: email);
+  }
   //regester
   Future regesterEmailAndPass(String email, String pass) async {
     try{

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rpgcompanion/Authenticate/ResetPass.dart';
 import 'package:rpgcompanion/Authenticate/regester.dart';
 import 'package:rpgcompanion/Home/home.dart';
 import 'package:rpgcompanion/servicces/auth.dart';
@@ -74,6 +75,15 @@ class _signInState extends State<signIn> {
                     print('signed In Anon');
                     print(res.uid);
                   }
+                },
+              ),
+              SizedBox(height: 20.0,),
+              FlatButton(
+                color: Colors.red,
+                child: Text('Reset Password'),
+                onPressed: () async {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => resetPass()));
                 },
               ),
               SizedBox(height: 15.0,),
