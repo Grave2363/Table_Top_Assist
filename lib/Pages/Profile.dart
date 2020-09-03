@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:rpgcompanion/Home/home.dart';
 import 'dart:io';
 import 'dart:math';
 import 'package:rpgcompanion/servicces/databade.dart';
@@ -7,6 +8,7 @@ import 'package:rpgcompanion/shared/const.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:rpgcompanion/Home/home.dart';
 class profile extends StatefulWidget {
   final String name;
   profile({Key key, this.name,}): super(key:key);
@@ -26,6 +28,7 @@ class _profileState extends State<profile> {
   bool newImg = false;
   Widget getImageWidget() {
     if (imageFile != null) {
+      imgFromPrefs = imageFile.path;
       return Image.file(
         imageFile,
         width: 250,
@@ -78,20 +81,13 @@ class _profileState extends State<profile> {
     SharedPreferences pref = await SharedPreferences.getInstance();
     _userController.text = pref.getString('User');
     imgFromPrefs = pref.getString('User Pic');
-    imgFromPrefs.replaceAll('\'', '');
-    imgFromPrefs.replaceAll('\"', '');
-    imgFromPrefs.replaceAll("File:", '');
-    if (widget.name != null)
-    {
-      _userController.text = widget.name;
-    }
     setState(() {});
   }
   _save() async
   {
     final pref = await SharedPreferences.getInstance();
     await pref.setString('User', _userController.text);
-    await pref.setString('User Pic', imageFile.path);
+    await pref.setString('User Pic', imgFromPrefs);
   }
   @override
   Widget build(BuildContext context) {
@@ -110,9 +106,16 @@ class _profileState extends State<profile> {
             color: Colors.red, child: Text('Get Image From Gallery'),
             onPressed: (){
               getImage(ImageSource.gallery);
+              newImg = true;
             },
           ),
           getImageWidget(),
+          FlatButton(
+            color: Colors.red, child: Text('Save changes'),
+            onPressed: (){
+              _save();
+            },
+          ),
         ],
       ),
     ),

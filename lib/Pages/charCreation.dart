@@ -23,6 +23,7 @@ class _makeCharacterState extends State<makeCharacter> {
   File imageFile ;
   String imgFromPrefs;
   bool processing = false;
+  String email = "";
   String recName = '';
   String imgString = "";
   String nameVal = "";
@@ -99,9 +100,10 @@ class _makeCharacterState extends State<makeCharacter> {
   }
   _read() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
+    email = pref.getString("Email");
     final nList = pref.getStringList("Names") ;
     final _random = new Random();
-    if (nList != null)
+    if (nList == null)
     {
       Fluttertoast.showToast(msg: "No Saved Characters");
     }
@@ -294,6 +296,7 @@ class _makeCharacterState extends State<makeCharacter> {
             SizedBox(height: 20.0,),
             FlatButton( color: Colors.red, child: Text('Save'), onPressed: () async {
               _save();
+              print(widget.name);
             },),
             FlatButton( color: Colors.red, child: Text('Delete this Character'),   onPressed: ()  async{
               deleteChar();
@@ -303,8 +306,9 @@ class _makeCharacterState extends State<makeCharacter> {
               onPressed: () async{
                 if (_auth.IsUserAnon() == false)
                 {
-                  databaseService().uploadData( i,widget.name,_strController.text, _intController.text, _constController.text, _wisController.text, _dexController.text,
+                  databaseService().uploadData( i,email,_strController.text, _intController.text, _constController.text, _wisController.text, _dexController.text,
                       _charController.text, _nameController.text, _skillController.text, _magicController.text);
+                  i++;
                 }
                 else
                   {

@@ -20,6 +20,11 @@ class _signInState extends State<signIn> {
   String error = '';
   String email = '';
   String password = '';
+  _save()async
+  {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    await pref.setString("Email", email);
+  }
   @override
   Widget build(BuildContext context) {
     return load ?Load() : Scaffold(
@@ -46,6 +51,7 @@ class _signInState extends State<signIn> {
               FlatButton( color: Colors.red, child: Text('Sign In'), onPressed: () async { if (_formKey.currentState.validate()){
                 setState(() => load = true);
                 dynamic res = await _auth.signInEmailAndPass(email, password);
+                _save();
                 if (res == null){
                   setState(() {
                     error = 'invalid credentials';

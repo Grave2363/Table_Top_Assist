@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rpgcompanion/servicces/auth.dart';
 import 'package:rpgcompanion/shared/const.dart';
 import 'package:rpgcompanion/shared/loading.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 class Regester extends StatefulWidget {
   final Function toggleView;
   Regester({this.toggleView });
@@ -16,7 +17,11 @@ class _RegesterState extends State<Regester> {
   String email = '';
   String password = '';
   String error = '';
-
+  _save()async
+  {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    await pref.setString("Email", email);
+  }
   @override
   Widget build(BuildContext context) {
     return load ? Load(): Scaffold(
@@ -44,6 +49,7 @@ class _RegesterState extends State<Regester> {
                 if (_formKey.currentState.validate()){
                   setState(() => load = true);
                   dynamic res = await _auth.regesterEmailAndPass(email, password);
+                  _save();
                   if (res == null){
                     setState(() {
                       error = 'please supply some valid email';

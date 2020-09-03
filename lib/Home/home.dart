@@ -8,6 +8,9 @@ import 'package:rpgcompanion/Pages/editNote.dart';
 import 'package:rpgcompanion/servicces/auth.dart';
 import 'package:rpgcompanion/shared/const.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'dart:io';
 class home extends StatefulWidget {
   @override
   _homeState createState() => _homeState();
@@ -16,7 +19,13 @@ class home extends StatefulWidget {
 class _homeState extends State<home> {
   final AuthSer _auth = AuthSer();
   String User = '';
+  File imageFile ;
+  String imgFromPrefs;
   final _userController = TextEditingController();
+  void  setImg(String img)
+  {
+    this.imgFromPrefs = img;
+  }
   void initState()
   {
     super.initState();
@@ -30,6 +39,8 @@ class _homeState extends State<home> {
   {
     SharedPreferences pref = await SharedPreferences.getInstance();
     _userController.text = pref.getString('User');
+    imgFromPrefs = pref.getString('User Pic');
+    setState(() {});
   }
   _save() async
   {
@@ -50,18 +61,20 @@ class _homeState extends State<home> {
           }, icon: Icon(Icons.person), label: Text('Log Out'))
         ],
       ),
-      body: Center(child: Column(
+      body: SingleChildScrollView(child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          TextField(onChanged: (val) {setState(() => User = val);},controller: _userController ,decoration: textInputDecor.copyWith(hintText: 'Desired User Name')),
+          TextField(onChanged: (val) {setState(() => User = val);},controller: _userController ,decoration: textInputDecor,readOnly: true,enableInteractiveSelection: false,),
           FlatButton(
             color: Colors.red,
             child: Text('Profile'),
-            onPressed: ()  {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => profile(name: User,)
-              ));
+            onPressed: () async {
+              await Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => profile()
+              ),
+              ).then((_){_read();setState(() {});
+              });
             },
           ),
           FlatButton(
@@ -69,7 +82,7 @@ class _homeState extends State<home> {
             child: Text('Character Sheets'),
             onPressed: ()  {
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => makeCharacter(load: false,name: User,)
+                  builder: (context) => makeCharacter(load: false,name: _userController.text,)
               ));
             },
           ),

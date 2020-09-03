@@ -11,6 +11,7 @@ class databaseService {
   CollectionReference characterCollection =  Firestore.instance.collection('Characters').reference();
   Future uploadData( int charNum,String username,String strength, String intelligence, String constitution, String wisdom, String dexterity, String charisma, String name, String skills, String magic ) async{
     username += charNum.toString();
+    print(username);
     return await characterCollection.document(username).setData({
       'Name': name,
       'Strength' : strength,
