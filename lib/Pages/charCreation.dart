@@ -101,7 +101,11 @@ class _makeCharacterState extends State<makeCharacter> {
     SharedPreferences pref = await SharedPreferences.getInstance();
     final nList = pref.getStringList("Names") ;
     final _random = new Random();
-    if (rand == true)
+    if (nList != null)
+    {
+      Fluttertoast.showToast(msg: "No Saved Characters");
+    }
+    else if (rand == true)
     {
       int r = nList.length;
        i = _random.nextInt(r - 1);
