@@ -44,18 +44,28 @@ class _diceRollState extends State<diceRoll> {
         child: Column(
           crossAxisAlignment:  CrossAxisAlignment.stretch,
           children: <Widget>[
-            TextField(decoration: staticTextDecor.copyWith(hintText: 'Die Size : ',hintStyle: TextStyle(color: Colors.black),),enabled: false,),
-            DropdownButton<String>(
-              items: dice.map((String dropDownStringItem){return DropdownMenuItem<String>(value: dropDownStringItem,child: Text(dropDownStringItem),);}).toList(),
-              onChanged:(String val){
-                setState(() {
-                  this.Die = val;
-                  this.die = int.parse(val);
-                });
-                print(Die);
-              },
-              value: Die,
-            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  width: 220,
+                  child:
+                  TextField(decoration: staticTextDecor.copyWith(hintText: 'Die Size : ',hintStyle: TextStyle(color: Colors.black),),enabled: false,),),
+                Container(
+                  width: 150,
+                  color: Colors.white,
+                  child: DropdownButton<String>(
+                 items: dice.map((String dropDownStringItem){return DropdownMenuItem<String>(value: dropDownStringItem,child: Text(dropDownStringItem),);}).toList(),
+                onChanged:(String val){
+                  setState(() {
+                    this.Die = val;
+                    this.die = int.parse(val);
+                  });
+                  print(Die);
+                },
+                value: Die,
+              ),),
+            ],),
             TextField(onChanged: (val) {setState(() => num = int.parse(val));}, decoration: textInputDecor.copyWith(hintText: 'Number of dice to roll')),
             TextField(onChanged: (val) {setState(() => advantage =int.parse( val));}, decoration: textInputDecor.copyWith(hintText: 'Advantage')),
             TextField(onChanged: (val) {setState(() => disadvantage =int.parse(val));}, decoration: textInputDecor.copyWith(hintText: 'Disadvantage')),

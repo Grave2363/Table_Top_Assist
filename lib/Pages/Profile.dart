@@ -33,20 +33,20 @@ class _profileState extends State<profile> {
         imageFile,
         width: 250,
         height: 250,
-        fit: BoxFit.cover,);
+        fit: BoxFit.contain,);
     }
     else if (imgFromPrefs != null){
-      return Image.asset(imgFromPrefs.toString() ,
+      return Image.file(File(imgFromPrefs.toString()) ,
         width: 250,
         height: 250,
-        fit: BoxFit.cover,);
+        fit: BoxFit.contain,);
     }
     else {
       return Image.asset(
         "assets/placeholder.jpg",
         width: 250,
-        height: 250,
-        fit: BoxFit.cover,
+        height: 252,
+        fit: BoxFit.contain,
       );
     }
   }
@@ -81,7 +81,9 @@ class _profileState extends State<profile> {
     SharedPreferences pref = await SharedPreferences.getInstance();
     _userController.text = pref.getString('User');
     imgFromPrefs = pref.getString('User Pic');
-    setState(() {});
+    setState(() {
+
+    });
   }
   _save() async
   {

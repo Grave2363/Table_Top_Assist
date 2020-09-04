@@ -62,10 +62,9 @@ class _homeState extends State<home> {
         ],
       ),
       body: SingleChildScrollView(child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          TextField(onChanged: (val) {setState(() => User = val);},controller: _userController ,decoration: textInputDecor,readOnly: true,enableInteractiveSelection: false,),
           FlatButton(
             color: Colors.red,
             child: Text('Profile'),

@@ -7,12 +7,11 @@ import 'auth.dart';
 class databaseService {
   final String uid;
   databaseService({this.uid});
+  static String collect = '';
   // collection ref
-  CollectionReference characterCollection =  Firestore.instance.collection('Characters').reference();
+  CollectionReference characterCollection =  Firestore.instance.collection(collect).reference();
   Future uploadData( int charNum,String username,String strength, String intelligence, String constitution, String wisdom, String dexterity, String charisma, String name, String skills, String magic ) async{
-    username += charNum.toString();
-    print(username);
-    return await characterCollection.document(username).setData({
+    return await characterCollection.document(name).setData({
       'Name': name,
       'Strength' : strength,
       'Intelligence' : intelligence,
@@ -23,6 +22,10 @@ class databaseService {
       'Magic': magic,
       'Skills': skills
     });
+  }
+  void setCollect(String string)
+  {
+    collect = string;
   }
   //char list from snapshot
   List<CharSheet> _charListFromSnap(QuerySnapshot snap)

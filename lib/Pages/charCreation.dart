@@ -264,22 +264,31 @@ class _makeCharacterState extends State<makeCharacter> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                FlatButton( color: Colors.red, child: Text('Get Character'),   onPressed: ()  async{
-                  setState(() {
-                    searching = true;
-                    _read();
-                  });
-                },),
-                FlatButton( color: Colors.red, child: Text('Random Character'),   onPressed: ()  async{
+                Container(
+                  width: 110,
+                  child:  FlatButton( color: Colors.red, child: Text('Get Character'),   onPressed: ()  async{
+                    setState(() {
+                      searching = true;
+                      _read();
+                    });
+                  },),
+                ),
+                Container(
+                  width: 120,
+                  child:
+                  FlatButton( color: Colors.red, child: Text('Random Character'),   onPressed: ()  async{
                   setState(() {
                     rand = true;
                     _read();
                   });
-                },),
-                FlatButton( color: Colors.red, child: Text('Next Character'), onPressed: () async {
+                },),),
+                Container(
+                  width: 120,
+                  child:
+                  FlatButton( color: Colors.red, child: Text('Next Character'), onPressed: () async {
                   next = true;
                   _read();
-                },),
+                },),),
               ],
             ),
             getImageWidget(),
@@ -306,6 +315,7 @@ class _makeCharacterState extends State<makeCharacter> {
               onPressed: () async{
                 if (_auth.IsUserAnon() == false)
                 {
+                  databaseService().setCollect(email);
                   databaseService().uploadData( i,email,_strController.text, _intController.text, _constController.text, _wisController.text, _dexController.text,
                       _charController.text, _nameController.text, _skillController.text, _magicController.text);
                   i++;
