@@ -1,7 +1,8 @@
 import 'dart:io';
 import 'dart:math';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
+import 'package:rpgcompanion/model/CharSheet.dart';
 import 'package:rpgcompanion/servicces/auth.dart';
 import 'package:rpgcompanion/servicces/databade.dart';
 import 'package:rpgcompanion/shared/const.dart';
@@ -242,92 +243,100 @@ class _makeCharacterState extends State<makeCharacter> {
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Colors.blueGrey,
-        appBar: AppBar(
-         backgroundColor: Colors.red,
-         elevation: 0.0,
-         title: Text('RPG Companion'),
-    ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            TextField(onChanged: (val) {setState(() => nameVal = val);}, controller: _nameController, decoration: textInputDecor.copyWith(hintText: 'Name')),
-            FlatButton(
-              color: Colors.red, child: Text('Get Image From Gallery'),
-              onPressed: (){
-                getImage(ImageSource.gallery);
-              },
-            ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Container(
-                  width: 110,
-                  child:  FlatButton( color: Colors.red, child: Text('Get Character'),   onPressed: ()  async{
+    return StreamProvider<List<CharSheet>>.value(
+      value: databaseService().characters,
+      child: Scaffold(
+          backgroundColor: Colors.blueGrey,
+          appBar: AppBar(
+           backgroundColor: Colors.red,
+           elevation: 0.0,
+           title: Text('RPG Companion'),
+      ),
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              TextField(onChanged: (val) {setState(() => nameVal = val);}, controller: _nameController, decoration: textInputDecor.copyWith(hintText: 'Name')),
+              FlatButton(
+                color: Colors.red, child: Text('Get Image From Gallery'),
+                onPressed: (){
+                  getImage(ImageSource.gallery);
+                },
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Container(
+                    width: 110,
+                    child:  FlatButton( color: Colors.red, child: Text('Get Character'),   onPressed: ()  async{
+                      setState(() {
+                        searching = true;
+                        _read();
+                      });
+                    },),
+                  ),
+                  Container(
+                    width: 120,
+                    child:
+                    FlatButton( color: Colors.red, child: Text('Random Character'),   onPressed: ()  async{
                     setState(() {
-                      searching = true;
+                      rand = true;
                       _read();
                     });
-                  },),
-                ),
-                Container(
-                  width: 120,
-                  child:
-                  FlatButton( color: Colors.red, child: Text('Random Character'),   onPressed: ()  async{
-                  setState(() {
-                    rand = true;
+                  },),),
+                  Container(
+                    width: 120,
+                    child:
+                    FlatButton( color: Colors.red, child: Text('Next Character'), onPressed: () async {
+                    next = true;
                     _read();
-                  });
-                },),),
-                Container(
-                  width: 120,
-                  child:
-                  FlatButton( color: Colors.red, child: Text('Next Character'), onPressed: () async {
-                  next = true;
-                  _read();
-                },),),
-              ],
-            ),
-            getImageWidget(),
-            TextField(onChanged: (val) {setState(() => level = val);}, controller: _levelController, decoration: textInputDecor.copyWith(hintText: 'Level')),
-            TextField(onChanged: (val) {setState(() => classes = val);}, controller: _classController, decoration: textInputDecor.copyWith(hintText: 'Classes'), keyboardType: TextInputType.multiline, maxLines: null,),
-            TextField(onChanged: (val) {setState(() => Str = val);}, controller: _strController, decoration: textInputDecor.copyWith(hintText: 'Strength')),
-            TextField(onChanged: (val) {setState(() => Dex = val);}, controller: _dexController, decoration: textInputDecor.copyWith(hintText: 'Dexterity')),
-            TextField(onChanged: (val) {setState(() => Const = val);}, controller: _constController, decoration: textInputDecor.copyWith(hintText: 'Constitution')),
-            TextField(onChanged: (val) {setState(() => Int = val);}, controller: _intController, decoration: textInputDecor.copyWith(hintText: 'Intelligence')),
-            TextField(onChanged: (val) {setState(() => Wis = val);}, controller: _wisController, decoration: textInputDecor.copyWith(hintText: 'Wisdom')),
-            TextField(onChanged: (val) {setState(() => Char = val);}, controller: _charController, decoration: textInputDecor.copyWith(hintText: 'Charisma')),
-            TextField(onChanged: (val) {setState(() => skills = val);}, controller: _skillController, decoration: textInputDecor.copyWith(hintText: 'Skills'), keyboardType: TextInputType.multiline, maxLines: null,),
-            TextField(onChanged: (val) {setState(() => magic = val);}, controller: _magicController, decoration: textInputDecor.copyWith(hintText: 'Magic'), keyboardType: TextInputType.multiline, maxLines: null,),
-            SizedBox(height: 20.0,),
-            FlatButton( color: Colors.red, child: Text('Save'), onPressed: () async {
-              _save();
-              print(widget.name);
-            },),
-            FlatButton( color: Colors.red, child: Text('Delete this Character'),   onPressed: ()  async{
-              deleteChar();
-             },),
-            FlatButton(
-              color: Colors.red, child: Text('Upload Sheet'),
-              onPressed: () async{
-                if (_auth.IsUserAnon() == false)
-                {
-                  databaseService().setCollect(email);
-                  databaseService().uploadData( i,email,_strController.text, _intController.text, _constController.text, _wisController.text, _dexController.text,
-                      _charController.text, _nameController.text, _skillController.text, _magicController.text);
-                  i++;
-                }
-                else
-                  {
-                    Fluttertoast.showToast(msg: "Can't save, you are Anonymous");
-                  }
+                  },),),
+                ],
+              ),
+              FlatButton( color: Colors.red, child: Text('Get Character(s) From Cloud'),   onPressed: ()  async{
+                databaseService().setCollect(email);
 
               },
-            ),
-          ],
+              ),
+              getImageWidget(),
+              TextField(onChanged: (val) {setState(() => level = val);}, controller: _levelController, decoration: textInputDecor.copyWith(hintText: 'Level')),
+              TextField(onChanged: (val) {setState(() => classes = val);}, controller: _classController, decoration: textInputDecor.copyWith(hintText: 'Classes'), keyboardType: TextInputType.multiline, maxLines: null,),
+              TextField(onChanged: (val) {setState(() => Str = val);}, controller: _strController, decoration: textInputDecor.copyWith(hintText: 'Strength')),
+              TextField(onChanged: (val) {setState(() => Dex = val);}, controller: _dexController, decoration: textInputDecor.copyWith(hintText: 'Dexterity')),
+              TextField(onChanged: (val) {setState(() => Const = val);}, controller: _constController, decoration: textInputDecor.copyWith(hintText: 'Constitution')),
+              TextField(onChanged: (val) {setState(() => Int = val);}, controller: _intController, decoration: textInputDecor.copyWith(hintText: 'Intelligence')),
+              TextField(onChanged: (val) {setState(() => Wis = val);}, controller: _wisController, decoration: textInputDecor.copyWith(hintText: 'Wisdom')),
+              TextField(onChanged: (val) {setState(() => Char = val);}, controller: _charController, decoration: textInputDecor.copyWith(hintText: 'Charisma')),
+              TextField(onChanged: (val) {setState(() => skills = val);}, controller: _skillController, decoration: textInputDecor.copyWith(hintText: 'Skills'), keyboardType: TextInputType.multiline, maxLines: null,),
+              TextField(onChanged: (val) {setState(() => magic = val);}, controller: _magicController, decoration: textInputDecor.copyWith(hintText: 'Magic'), keyboardType: TextInputType.multiline, maxLines: null,),
+              SizedBox(height: 20.0,),
+              FlatButton( color: Colors.red, child: Text('Save'), onPressed: () async {
+                _save();
+                print(widget.name);
+              },),
+              FlatButton( color: Colors.red, child: Text('Delete this Character'),   onPressed: ()  async{
+                deleteChar();
+               },),
+              FlatButton(
+                color: Colors.red, child: Text('Upload Sheet'),
+                onPressed: () async{
+                  if (_auth.IsUserAnon() == false)
+                  {
+                    databaseService().setCollect(email);
+                    databaseService().uploadData( i,_levelController.text,_classController.text,_strController.text, _intController.text, _constController.text, _wisController.text, _dexController.text,
+                        _charController.text, _nameController.text, _skillController.text, _magicController.text);
+                    i++;
+                  }
+                  else
+                    {
+                      Fluttertoast.showToast(msg: "Can't save, you are Anonymous");
+                    }
+
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
