@@ -53,7 +53,6 @@ class _makeCharacterState extends State<makeCharacter> {
   final _constController = TextEditingController();
   final _wisController = TextEditingController();
   final _charController = TextEditingController();
-  final nameIndex = 'index_of_names';
   _save() async{
     final pref = await SharedPreferences.getInstance();
     var nameList = pref.getStringList('Names');
