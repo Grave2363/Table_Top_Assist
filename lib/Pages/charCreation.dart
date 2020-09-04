@@ -72,7 +72,7 @@ class _makeCharacterState extends State<makeCharacter> {
     final wisKey = '$nameVal wis';
     final charKey = '$nameVal char';
     final levelKey = '$nameVal level';
-    if (nameVal.length > 0)
+    if (nameVal.length > 0 && !nameList.contains(nameVal))
     {
       nameList.add(nameVal);
       await pref.setStringList("Names", nameList);
@@ -208,7 +208,7 @@ class _makeCharacterState extends State<makeCharacter> {
       );
     }
     else if (imgFromPrefs != null){
-      return Image.asset(imgFromPrefs.toString() ,
+      return Image.file(File(imgFromPrefs.toString()) ,
         width: 250,
         height: 250,
         fit: BoxFit.cover,);
