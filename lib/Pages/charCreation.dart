@@ -242,9 +242,9 @@ class _makeCharacterState extends State<makeCharacter> {
   }
   @override
   Widget build(BuildContext context) {
-    return StreamProvider<List<CharSheet>>.value(
-      value: databaseService().characters,
-      child: Scaffold(
+    return    StreamProvider<List<CharSheet>>.value(
+    value: databaseService().characters,
+    child: Scaffold(
           backgroundColor: Colors.blueGrey,
           appBar: AppBar(
            backgroundColor: Colors.red,
@@ -323,7 +323,7 @@ class _makeCharacterState extends State<makeCharacter> {
                   if (_auth.IsUserAnon() == false)
                   {
                     databaseService().setCollect(email);
-                    databaseService().uploadData( i,_levelController.text,_classController.text,_strController.text, _intController.text, _constController.text, _wisController.text, _dexController.text,
+                    databaseService().uploadData( _levelController.text,_classController.text,_strController.text, _intController.text, _constController.text, _wisController.text, _dexController.text,
                         _charController.text, _nameController.text, _skillController.text, _magicController.text);
                     i++;
                   }
@@ -336,8 +336,7 @@ class _makeCharacterState extends State<makeCharacter> {
               ),
             ],
           ),
-        ),
-      ),
+        ),),
     );
   }
 }

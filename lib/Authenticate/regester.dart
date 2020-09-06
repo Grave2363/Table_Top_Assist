@@ -20,6 +20,7 @@ class _RegesterState extends State<Regester> {
   _save()async
   {
     SharedPreferences pref = await SharedPreferences.getInstance();
+    await pref.remove("Email");
     await pref.setString("Email", email);
   }
   @override

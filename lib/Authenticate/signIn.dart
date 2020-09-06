@@ -24,6 +24,7 @@ class _signInState extends State<signIn> {
   _save()async
   {
     SharedPreferences pref = await SharedPreferences.getInstance();
+    await pref.remove("Email");
     await pref.setString("Email", email);
   }
   @override
@@ -51,8 +52,8 @@ class _signInState extends State<signIn> {
               SizedBox(height: 20.0,),
               FlatButton( color: Colors.red, child: Text('Sign In'), onPressed: () async { if (_formKey.currentState.validate()){
                 setState(() => load = true);
-                dynamic res = await _auth.signInEmailAndPass(email, password);
                 _save();
+                dynamic res = await _auth.signInEmailAndPass(email, password);
                 if (res == null){
                   setState(() {
                     error = 'invalid credentials';
