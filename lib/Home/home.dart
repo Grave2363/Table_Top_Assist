@@ -6,6 +6,7 @@ import 'package:rpgcompanion/Pages/Profile.dart';
 import 'package:rpgcompanion/Pages/charCreation.dart';
 import 'package:rpgcompanion/Pages/editNote.dart';
 import 'package:rpgcompanion/servicces/auth.dart';
+import 'package:rpgcompanion/servicces/databade.dart';
 import 'package:rpgcompanion/shared/const.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/cupertino.dart';
@@ -18,6 +19,7 @@ class home extends StatefulWidget {
 
 class _homeState extends State<home> {
   final AuthSer _auth = AuthSer();
+  String email = '';
   String User = '';
   File imageFile ;
   String imgFromPrefs;
@@ -40,6 +42,7 @@ class _homeState extends State<home> {
     SharedPreferences pref = await SharedPreferences.getInstance();
     _userController.text = pref.getString('User');
     imgFromPrefs = pref.getString('User Pic');
+    email = pref.getString("Email");
     setState(() {});
   }
   _save() async
@@ -80,6 +83,8 @@ class _homeState extends State<home> {
             color: Colors.red,
             child: Text('Character Sheets'),
             onPressed: ()  {
+              databaseService().setCollect(email);
+              print(email);
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => makeCharacter(load: false,name: _userController.text,)
               ));

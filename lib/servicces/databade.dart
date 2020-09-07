@@ -31,17 +31,17 @@ class databaseService {
   {
     return snap.documents.map((doc){
       return CharSheet(
-       name: doc.data['name']??'',
-       level: doc.data['level']?? '',
-       strength: doc.data['strength']??'',
-       intelligence: doc.data['intelligence']??'',
-       constitution: doc.data['constitution']??'',
-       wisdom: doc.data['wisdom']??'',
-       dexterity: doc.data['dexterity']??'',
-       charisma: doc.data['charisma']??'',
-       magic: doc.data['magic']??'',
-       skills: doc.data['skills']??'',
-        classes: doc.data['classes']?? ''
+       name: doc.data['Name']??'',
+       level: doc.data['Level']?? '',
+       strength: doc.data['Strength']??'',
+       intelligence: doc.data['Intelligence']??'',
+       constitution: doc.data['Constitution']??'',
+       wisdom: doc.data['Wisdom']??'',
+       dexterity: doc.data['Dexterity']??'',
+       charisma: doc.data['Charisma']??'',
+       magic: doc.data['Magic']??'',
+       skills: doc.data['Skills']??'',
+        classes: doc.data['Classes']?? ''
       );
     }).toList();
   }

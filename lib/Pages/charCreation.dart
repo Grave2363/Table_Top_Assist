@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:math';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
+import 'package:rpgcompanion/Pages/CharRetriever.dart';
 import 'package:rpgcompanion/model/CharSheet.dart';
 import 'package:rpgcompanion/servicces/auth.dart';
 import 'package:rpgcompanion/servicces/databade.dart';
@@ -255,6 +256,7 @@ class _makeCharacterState extends State<makeCharacter> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
+              CharacterRetreval(),
               TextField(onChanged: (val) {setState(() => nameVal = val);}, controller: _nameController, decoration: textInputDecor.copyWith(hintText: 'Name')),
               FlatButton(
                 color: Colors.red, child: Text('Get Image From Gallery'),
@@ -292,11 +294,6 @@ class _makeCharacterState extends State<makeCharacter> {
                     _read();
                   },),),
                 ],
-              ),
-              FlatButton( color: Colors.red, child: Text('Get Character(s) From Cloud'),   onPressed: ()  async{
-                databaseService().setCollect(email);
-
-              },
               ),
               getImageWidget(),
               TextField(onChanged: (val) {setState(() => level = val);}, controller: _levelController, decoration: textInputDecor.copyWith(hintText: 'Level')),
