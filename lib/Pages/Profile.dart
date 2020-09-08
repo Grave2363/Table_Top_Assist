@@ -18,6 +18,8 @@ class profile extends StatefulWidget {
 
 class _profileState extends State<profile> {
   String User = '';
+  String bio = '';
+  final _bioController = TextEditingController();
   final _userController = TextEditingController();
   File imageFile ;
   String imgFromPrefs;
@@ -112,6 +114,7 @@ class _profileState extends State<profile> {
             },
           ),
           getImageWidget(),
+          TextField(onChanged: (val) {setState(() => bio = val);}, controller: _bioController, decoration: textInputDecor.copyWith(hintText: 'Skills'), keyboardType: TextInputType.multiline, maxLines: null,),
           FlatButton(
             color: Colors.red, child: Text('Save changes'),
             onPressed: (){
