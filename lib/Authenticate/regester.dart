@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rpgcompanion/servicces/auth.dart';
+import 'package:rpgcompanion/servicces/databade.dart';
 import 'package:rpgcompanion/shared/const.dart';
 import 'package:rpgcompanion/shared/loading.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -49,6 +50,7 @@ class _RegesterState extends State<Regester> {
               FlatButton( color: Colors.red, child: Text('Register'), onPressed: () async {
                 if (_formKey.currentState.validate()){
                   setState(() => load = true);
+                  databaseService().uploadUserName(email);
                   dynamic res = await _auth.regesterEmailAndPass(email, password);
                   _save();
                   if (res == null){

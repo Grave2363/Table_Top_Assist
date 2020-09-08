@@ -7,6 +7,7 @@ class databaseService {
   static String collect = '';
   // collection ref
   static CollectionReference characterCollection =  Firestore.instance.collection(collect).reference();
+  static CollectionReference userCollection =  Firestore.instance.collection("Users").reference();
   Future uploadData(String level,String classes,String strength, String intelligence, String constitution, String wisdom, String dexterity, String charisma, String name, String skills, String magic ) async{
     return await characterCollection.document(name).setData({
       'Name': name,
@@ -20,6 +21,11 @@ class databaseService {
       'Charisma' : charisma,
       'Magic': magic,
       'Skills': skills
+    });
+  }
+  Future uploadUserName(String user ) async{
+    return await userCollection.document(user).setData({
+      'Name': user
     });
   }
   void setCollect(String string)
