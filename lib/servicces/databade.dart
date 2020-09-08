@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rpgcompanion/model/CharSheet.dart';
 // ignore: camel_case_types
@@ -32,6 +34,10 @@ class databaseService {
   getUserByName(String name) async
   {
     await Firestore.instance.collection("Users").where("Name", isEqualTo: name).getDocuments();
+  }
+  createChat(String chatId, chatMap)
+  {
+    Firestore.instance.collection("ChatRoom").document(chatId).setData(chatMap).catchError((e){print(e.toString());});
   }
   void setCollect(String string)
   {
