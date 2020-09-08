@@ -83,6 +83,7 @@ class _profileState extends State<profile> {
     SharedPreferences pref = await SharedPreferences.getInstance();
     _userController.text = pref.getString('User');
     imgFromPrefs = pref.getString('User Pic');
+    bio = pref.getString('User Bio');
     setState(() {
 
     });
@@ -92,6 +93,7 @@ class _profileState extends State<profile> {
     final pref = await SharedPreferences.getInstance();
     await pref.setString('User', _userController.text);
     await pref.setString('User Pic', imgFromPrefs);
+    await pref.setString('User Bio', bio);
   }
   @override
   Widget build(BuildContext context) {
