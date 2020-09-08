@@ -23,10 +23,15 @@ class databaseService {
       'Skills': skills
     });
   }
-  Future uploadUserName(String user ) async{
-    return await userCollection.document(user).setData({
-      'Name': user
+  Future uploadUserName(String user, String email ) async{
+    return await userCollection.document(uid).setData({
+      'Name': user,
+      'Email' : email
     });
+  }
+  getUserByName(String name) async
+  {
+    await Firestore.instance.collection("Users").where("Name", isEqualTo: name).getDocuments();
   }
   void setCollect(String string)
   {

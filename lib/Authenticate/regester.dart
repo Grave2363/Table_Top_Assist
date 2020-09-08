@@ -14,6 +14,8 @@ class Regester extends StatefulWidget {
 class _RegesterState extends State<Regester> {
   final AuthSer _auth = AuthSer();
   final _formKey = GlobalKey<FormState>();
+  String User = '';
+  final _userController = TextEditingController();
   bool load = false;
   String email = '';
   String password = '';
@@ -23,6 +25,7 @@ class _RegesterState extends State<Regester> {
     SharedPreferences pref = await SharedPreferences.getInstance();
     await pref.remove("Email");
     await pref.setString("Email", email);
+    await pref.setString('User', _userController.text);
   }
   @override
   Widget build(BuildContext context) {
@@ -42,6 +45,7 @@ class _RegesterState extends State<Regester> {
           key: _formKey,
           child: Column(
             children: <Widget>[
+              TextField(onChanged: (val) {setState(() => User = val);},controller: _userController ,decoration: textInputDecor.copyWith(hintText: 'Profile Name')),
               SizedBox(height: 20.0,),
               TextFormField(onChanged: (val) {setState(() => email = val);},validator: (val) => val.isEmpty ? 'Enter an Email': null,decoration: textInputDecor.copyWith(hintText: 'Email'),),
               SizedBox(height: 20.0,),
@@ -50,7 +54,7 @@ class _RegesterState extends State<Regester> {
               FlatButton( color: Colors.red, child: Text('Register'), onPressed: () async {
                 if (_formKey.currentState.validate()){
                   setState(() => load = true);
-                  databaseService().uploadUserName(email);
+                  databaseService().uploadUserName(email, _userController.text);
                   dynamic res = await _auth.regesterEmailAndPass(email, password);
                   _save();
                   if (res == null){

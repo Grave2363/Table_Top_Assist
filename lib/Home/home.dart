@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:rpgcompanion/Pages/ChatList.dart';
 import 'package:rpgcompanion/Pages/Dice.dart';
 import 'package:rpgcompanion/Pages/MapSave.dart';
 import 'package:rpgcompanion/Pages/Profile.dart';
@@ -110,10 +111,10 @@ class _homeState extends State<home> {
           ),
           FlatButton(
             color: Colors.red,
-            child: Text('  Save and  View Images  '),
+            child: Text('  Chat Lists  '),
             onPressed: ()  {
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => MapSave()
+                  builder: (context) => ChatSearch()
               ));
             },
           ),
