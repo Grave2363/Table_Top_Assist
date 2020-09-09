@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:rpgcompanion/Home/userGet.dart';
 import 'package:rpgcompanion/Pages/CharRetriever.dart';
 import 'package:rpgcompanion/Pages/ChatList.dart';
 import 'package:rpgcompanion/Pages/Dice.dart';
@@ -9,6 +10,7 @@ import 'package:rpgcompanion/Pages/Profile.dart';
 import 'package:rpgcompanion/Pages/charCreation.dart';
 import 'package:rpgcompanion/Pages/editNote.dart';
 import 'package:rpgcompanion/model/CharSheet.dart';
+import 'package:rpgcompanion/model/UserInfo.dart';
 import 'package:rpgcompanion/servicces/auth.dart';
 import 'package:rpgcompanion/servicces/databade.dart';
 import 'package:rpgcompanion/shared/const.dart';
@@ -46,9 +48,10 @@ class _homeState extends State<home> {
   }
   @override
   Widget build(BuildContext context) {
-    return StreamProvider<List<CharSheet>>.value(
-      value: databaseService().characters,
-      child: Scaffold(
+    return StreamProvider<List<UserInfo>>.value(
+      value: databaseService().user,
+      child:
+     Scaffold(
         backgroundColor: Colors.blueGrey,
         appBar: AppBar(
           backgroundColor: Colors.red,
@@ -64,7 +67,7 @@ class _homeState extends State<home> {
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-
+            userGet(),
             FlatButton(
               color: Colors.red,
               child: Text('Profile'),

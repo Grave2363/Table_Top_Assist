@@ -10,24 +10,19 @@ class userGet extends StatefulWidget {
 
 class _userGetState extends State<userGet> {
 
-
+String userName = '';
   _save()async
   {
     final pref = await SharedPreferences.getInstance();
-    var nameList = pref.getStringList('Names');
-    if (nameList == null)
-    {
-      nameList = List<String>();
-    }
-
+    pref.setString("User", userName);
   }
   @override
   Widget build(BuildContext context) {
     final characterGet = Provider.of<List<UserInfo>>(context);
     if (characterGet != null)
-      characterGet.forEach((CharSheet)
+      characterGet.forEach((UserInfo)
       {
-       
+
         _save();
       });
     return Container();

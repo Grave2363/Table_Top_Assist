@@ -11,6 +11,7 @@ class databaseService {
   static String collect = '';
   // collection ref
   static CollectionReference characterCollection =  Firestore.instance.collection(collect).reference();
+  static CollectionReference userNameCollection =  Firestore.instance.collection(collect + "Name").reference();
   static CollectionReference userCollection =  Firestore.instance.collection("Users").reference();
   Future uploadData(String level,String classes,String strength, String intelligence, String constitution, String wisdom, String dexterity, String charisma, String name, String skills, String magic ) async{
     return await characterCollection.document(name).setData({
@@ -69,27 +70,26 @@ class databaseService {
 Stream<List<CharSheet>> get characters {
     return characterCollection.snapshots().map(_charListFromSnap);
 }
-  List<CharSheet> _UserFromSnap(QuerySnapshot snap)
+  Future UploadUserInfo(String user, String email ) async{
+    return await userNameCollection.document(email).setData({
+      'Name': user,
+      'Email' : email,
+      'Uid' : uid
+    });
+  }
+// Get the user's Name
+  List<UserInfo> _UserFromSnap(QuerySnapshot snap)
   {
     return snap.documents.map((doc){
-      return CharSheet(
-          name: doc.data['Name']??'',
-          level: doc.data['Level']?? '',
-          strength: doc.data['Strength']??'',
-          intelligence: doc.data['Intelligence']??'',
-          constitution: doc.data['Constitution']??'',
-          wisdom: doc.data['Wisdom']??'',
-          dexterity: doc.data['Dexterity']??'',
-          charisma: doc.data['Charisma']??'',
-          magic: doc.data['Magic']??'',
-          skills: doc.data['Skills']??'',
-          classes: doc.data['Classes']?? ''
+      return UserInfo(
+        name: doc.data['Name']??'',
+        email: doc.data['Email']??'',
+        uid: doc.data['Uid']??''
       );
     }).toList();
   }
 
-  //get stream
-  Stream<List<CharSheet>> get user {
-    return characterCollection.snapshots().map(_UserFromSnap);
+  Stream<List<UserInfo>> get user {
+    return userNameCollection.snapshots().map(_UserFromSnap);
   }
 }
