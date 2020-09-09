@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rpgcompanion/model/CharSheet.dart';
+import 'package:rpgcompanion/model/UserInfo.dart';
+import 'package:rpgcompanion/model/user.dart';
 // ignore: camel_case_types
 class databaseService {
   final String uid;
@@ -26,14 +28,14 @@ class databaseService {
     });
   }
   Future uploadUserName(String user, String email ) async{
-    return await userCollection.document(uid).setData({
+    return await userCollection.document(email).setData({
       'Name': user,
       'Email' : email
     });
   }
   getUserByName(String name) async
   {
-    await Firestore.instance.collection("Users").where("Name", isEqualTo: name).getDocuments();
+    return await Firestore.instance.collection("Users").where("Name", isEqualTo: name).getDocuments();
   }
   createChat(String chatId, chatMap)
   {
@@ -67,4 +69,27 @@ class databaseService {
 Stream<List<CharSheet>> get characters {
     return characterCollection.snapshots().map(_charListFromSnap);
 }
+  List<CharSheet> _UserFromSnap(QuerySnapshot snap)
+  {
+    return snap.documents.map((doc){
+      return CharSheet(
+          name: doc.data['Name']??'',
+          level: doc.data['Level']?? '',
+          strength: doc.data['Strength']??'',
+          intelligence: doc.data['Intelligence']??'',
+          constitution: doc.data['Constitution']??'',
+          wisdom: doc.data['Wisdom']??'',
+          dexterity: doc.data['Dexterity']??'',
+          charisma: doc.data['Charisma']??'',
+          magic: doc.data['Magic']??'',
+          skills: doc.data['Skills']??'',
+          classes: doc.data['Classes']?? ''
+      );
+    }).toList();
+  }
+
+  //get stream
+  Stream<List<CharSheet>> get user {
+    return characterCollection.snapshots().map(_UserFromSnap);
+  }
 }

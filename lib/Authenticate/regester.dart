@@ -25,7 +25,7 @@ class _RegesterState extends State<Regester> {
     SharedPreferences pref = await SharedPreferences.getInstance();
     await pref.remove("Email");
     await pref.setString("Email", email);
-    await pref.setString('User', _userController.text);
+    await pref.setString('User', User);
   }
   @override
   Widget build(BuildContext context) {
@@ -45,7 +45,7 @@ class _RegesterState extends State<Regester> {
           key: _formKey,
           child: Column(
             children: <Widget>[
-              TextField(onChanged: (val) {setState(() => User = val);},controller: _userController ,decoration: textInputDecor.copyWith(hintText: 'Profile Name')),
+              TextField(onChanged: (val) {setState(() => User = val);},controller: _userController ,decoration: textInputDecor.copyWith(hintText: 'Profile Name'), ),
               SizedBox(height: 20.0,),
               TextFormField(onChanged: (val) {setState(() => email = val);},validator: (val) => val.isEmpty ? 'Enter an Email': null,decoration: textInputDecor.copyWith(hintText: 'Email'),),
               SizedBox(height: 20.0,),

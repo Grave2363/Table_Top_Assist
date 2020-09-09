@@ -22,6 +22,7 @@ class makeCharacter extends StatefulWidget {
 class _makeCharacterState extends State<makeCharacter> {
   final AuthSer _auth = AuthSer();
   int i = 0;
+  String userName = '';
   File imageFile ;
   String imgFromPrefs;
   bool processing = false;
@@ -102,6 +103,7 @@ class _makeCharacterState extends State<makeCharacter> {
   _read() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     email = pref.getString("Email");
+    userName = pref.getString("User");
     final nList = pref.getStringList("Names") ;
     final _random = new Random();
     if (nList == null)

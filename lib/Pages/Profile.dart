@@ -93,7 +93,6 @@ class _profileState extends State<profile> {
   _save() async
   {
     final pref = await SharedPreferences.getInstance();
-    await pref.setString('User', _userController.text);
     await pref.setString('User Pic', imgFromPrefs);
     await pref.setString('User Bio', bio);
   }
@@ -118,7 +117,7 @@ class _profileState extends State<profile> {
             },
           ),
           getImageWidget(),
-          TextField(onChanged: (val) {setState(() => bio = val);}, controller: _bioController, decoration: textInputDecor.copyWith(hintText: 'Skills'), keyboardType: TextInputType.multiline, maxLines: null,),
+          TextField(onChanged: (val) {setState(() => bio = val);}, controller: _bioController, decoration: textInputDecor.copyWith(hintText: 'Enter Whatever'), keyboardType: TextInputType.multiline, maxLines: null,),
           FlatButton(
             color: Colors.red, child: Text('Save changes'),
             onPressed: (){

@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:rpgcompanion/servicces/databade.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'Communicate.dart';
+
 class ChatSearch extends StatefulWidget {
   @override
   _ChatSearchState createState() => _ChatSearchState();
@@ -11,35 +13,88 @@ class ChatSearch extends StatefulWidget {
 
 class _ChatSearchState extends State<ChatSearch> {
   TextEditingController editCon = new TextEditingController();
-  QuerySnapshot serchSnap;
-  String usersName  = '';
-  makeChat(String username)
+  QuerySnapshot searchSnap;
+  String myName  = '';
+  makeChat({String username})
   {
-    List<String> users = [username, usersName];
+    if (username != myName){
+      String roomId = getChatRoom(username, myName);
+      List<String> users = [username, myName];
+      Map<String, dynamic> roomMap = {
+        "Users" : users,
+        "ChatRoomId" : roomId
+      };
+      databaseService().createChat(roomId, roomMap);
+      Navigator.push(context, MaterialPageRoute(
+          builder: (context) => CommunicationScreen()
+      ));
+    }
   }
   Widget searchList()
   {
-    return serchSnap != null ? ListView.builder(itemCount: serchSnap.documents.length,
+    return searchSnap != null ? ListView.builder(itemCount: searchSnap.documents.length,
       shrinkWrap: true,
       itemBuilder: (context, index){
-      return SearchBox( userName: serchSnap.documents[index].data["Name"], email: serchSnap.documents[index].data["Email"],);
+      return SearchBox( userName: searchSnap.documents[index].data["Name"], email: searchSnap.documents[index].data["Email"],);
     },): Container() ;
   }
   doSearch() {
     databaseService().getUserByName(editCon.text).then((val){setState(() {
-      serchSnap = val;
+      searchSnap = val;
     });});
   }
   _read() async
   {
     final pref = await SharedPreferences.getInstance();
-    usersName = pref.getString('User');
+    myName = pref.getString('User');
   }
   @override
   void initState() {
    _read();
     super.initState();
   }
+  // ignore: non_constant_identifier_names
+  Widget SearchBox({String userName, String email})
+  {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+      child: Row(
+        children: <Widget>[
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(userName, ),
+              Text(email),
+            ],
+          ),
+          Spacer(),
+          GestureDetector(
+            onTap: (){
+              makeChat( username : userName);
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.red,
+                borderRadius: BorderRadius.circular(40),
+              ),
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Text("Message"),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+  getChatRoom(String n1, String n2)
+  {
+    if (n1.substring(0,1).codeUnitAt(0) > n2.substring(0,1).codeUnitAt(0))
+    {
+      return "$n2\_$n1";
+    }else{
+      return "$n1\_$n2";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,6 +115,7 @@ class _ChatSearchState extends State<ChatSearch> {
               children: <Widget>[
                 Expanded(
                     child: TextField(
+                      style: TextStyle(color: Colors.white),
                       controller: editCon,
                       decoration: InputDecoration(
                         hintText: "Search user",
@@ -90,6 +146,7 @@ class _ChatSearchState extends State<ChatSearch> {
               ],
             ),
           ),
+           searchList(),
         ],
       ),
     ),
@@ -97,36 +154,4 @@ class _ChatSearchState extends State<ChatSearch> {
   }
 
 
-}
-class SearchBox extends StatelessWidget {
-  final String userName;
-  final String email;
-  SearchBox({this.userName, this.email});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-      child: Row(
-        children: <Widget>[
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(userName, ),
-              Text(email),
-            ],
-          ),
-          Spacer(),
-          Container(
-           decoration: BoxDecoration(
-             color: Colors.red,
-             borderRadius: BorderRadius.circular(40),
-           ),
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: Text("Message"),
-          ),
-        ],
-      ),
-    );
-  }
 }
