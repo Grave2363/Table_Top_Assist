@@ -11,7 +11,6 @@ class databaseService {
   static String collect = '';
   // collection ref
   static CollectionReference characterCollection =  Firestore.instance.collection(collect).reference();
-  static CollectionReference userNameCollection =  Firestore.instance.collection(collect + "Name").reference();
   static CollectionReference userCollection =  Firestore.instance.collection("Users").reference();
   Future uploadData(String level,String classes,String strength, String intelligence, String constitution, String wisdom, String dexterity, String charisma, String name, String skills, String magic ) async{
     return await characterCollection.document(name).setData({
@@ -70,26 +69,4 @@ class databaseService {
 Stream<List<CharSheet>> get characters {
     return characterCollection.snapshots().map(_charListFromSnap);
 }
-  Future UploadUserInfo(String user, String email ) async{
-    return await userNameCollection.document(email).setData({
-      'Name': user,
-      'Email' : email,
-      'Uid' : uid
-    });
-  }
-// Get the user's Name
-  List<UserInfo> _UserFromSnap(QuerySnapshot snap)
-  {
-    return snap.documents.map((doc){
-      return UserInfo(
-        name: doc.data['Name']??'',
-        email: doc.data['Email']??'',
-        uid: doc.data['Uid']??''
-      );
-    }).toList();
-  }
-
-  Stream<List<UserInfo>> get user {
-    return userNameCollection.snapshots().map(_UserFromSnap);
-  }
 }

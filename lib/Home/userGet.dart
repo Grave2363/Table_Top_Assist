@@ -18,11 +18,12 @@ String userName = '';
   }
   @override
   Widget build(BuildContext context) {
-    final characterGet = Provider.of<List<UserInfo>>(context);
-    if (characterGet != null)
-      characterGet.forEach((UserInfo)
+    final userGet = Provider.of<List<UserInfo>>(context);
+    if (userGet != null)
+      userGet.forEach((UserInfo)
       {
-
+        userName = UserInfo.name;
+        print("Username "+userName);
         _save();
       });
     return Container();

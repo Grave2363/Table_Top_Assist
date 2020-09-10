@@ -18,6 +18,7 @@ class profile extends StatefulWidget {
 
 class _profileState extends State<profile> {
   String User = '';
+  String email = '';
   String bio = '';
   final _bioController = TextEditingController();
   final _userController = TextEditingController();
@@ -86,15 +87,18 @@ class _profileState extends State<profile> {
     _userController.text = pref.getString('User');
     imgFromPrefs = pref.getString('User Pic');
     bio = pref.getString('User Bio');
-    setState(() {
-
-    });
+    email = pref.getString('Email');
+    setState(() {});
   }
   _save() async
   {
     final pref = await SharedPreferences.getInstance();
+    await pref.setString('User', _userController.text);
     await pref.setString('User Pic', imgFromPrefs);
     await pref.setString('User Bio', bio);
+    databaseService().setCollect(email);
+    databaseService().uploadUserName( _userController.text, email);
+    print("Completed update");
   }
   @override
   Widget build(BuildContext context) {
@@ -108,7 +112,7 @@ class _profileState extends State<profile> {
      body: SingleChildScrollView(
       child: Column(
         children: <Widget>[
-          TextField(onChanged: (val) {setState(() => User = val);},controller: _userController ,decoration: textInputDecor.copyWith(hintText: 'Profile Name'), enabled: false,),
+          TextField(onChanged: (val) {setState(() => User = val);},controller: _userController ,decoration: textInputDecor.copyWith(hintText: 'Profile Name'),),
           FlatButton(
             color: Colors.red, child: Text('Get Image From Gallery'),
             onPressed: (){

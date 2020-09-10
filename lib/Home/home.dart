@@ -42,16 +42,15 @@ class _homeState extends State<home> {
   _read() async
   {
     SharedPreferences pref = await SharedPreferences.getInstance();
-    _userController.text = pref.getString('User');
+    User = pref.getString('User');
     email = pref.getString("Email");
+    print("Email "+email);
+    print("Username "+User);
     setState(() {});
   }
   @override
   Widget build(BuildContext context) {
-    return StreamProvider<List<UserInfo>>.value(
-      value: databaseService().user,
-      child:
-     Scaffold(
+    return Scaffold(
         backgroundColor: Colors.blueGrey,
         appBar: AppBar(
           backgroundColor: Colors.red,
@@ -67,7 +66,6 @@ class _homeState extends State<home> {
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            userGet(),
             FlatButton(
               color: Colors.red,
               child: Text('Profile'),
@@ -119,7 +117,6 @@ class _homeState extends State<home> {
             ),
           ],
         ),),
-      ),
     );
   }
 }

@@ -54,6 +54,7 @@ class _RegesterState extends State<Regester> {
               FlatButton( color: Colors.red, child: Text('Register'), onPressed: () async {
                 if (_formKey.currentState.validate()){
                   setState(() => load = true);
+                  databaseService().setCollect(email);
                   databaseService().uploadUserName(email, _userController.text);
                   dynamic res = await _auth.regesterEmailAndPass(email, password);
                   _save();
