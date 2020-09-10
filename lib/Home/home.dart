@@ -5,6 +5,7 @@ import 'package:rpgcompanion/Home/userGet.dart';
 import 'package:rpgcompanion/Pages/CharRetriever.dart';
 import 'package:rpgcompanion/Pages/ChatList.dart';
 import 'package:rpgcompanion/Pages/Dice.dart';
+import 'package:rpgcompanion/Pages/ListOfChats.dart';
 import 'package:rpgcompanion/Pages/MapSave.dart';
 import 'package:rpgcompanion/Pages/Profile.dart';
 import 'package:rpgcompanion/Pages/charCreation.dart';
@@ -111,7 +112,7 @@ class _homeState extends State<home> {
               child: Text('  Chat Lists  '),
               onPressed: ()  {
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => ChatSearch()
+                    builder: (context) => listOfChats()
                 ));
               },
             ),

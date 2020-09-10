@@ -69,4 +69,12 @@ class databaseService {
 Stream<List<CharSheet>> get characters {
     return characterCollection.snapshots().map(_charListFromSnap);
 }
+getConversation(String chatId, messageMap)
+{
+  Firestore.instance.collection("ChatRoom").document(chatId).collection("Chat").add(messageMap).catchError((e){print("Error "+e.toString());});
+}
+  getMessages(String chatId) async
+  {
+    return  await Firestore.instance.collection("ChatRoom").document(chatId).collection("Chat").orderBy("Time", descending: false).snapshots();
+  }
 }
