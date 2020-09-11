@@ -112,7 +112,7 @@ class _profileState extends State<profile> {
      body: SingleChildScrollView(
       child: Column(
         children: <Widget>[
-          TextField(onChanged: (val) {setState(() => User = val);},controller: _userController ,decoration: textInputDecor.copyWith(hintText: 'Profile Name'),),
+          TextField(onChanged: (val) {setState(() => User = val);},controller: _userController ,decoration: textInputDecor.copyWith(hintText: 'Profile Name', enabled: false),),
           FlatButton(
             color: Colors.red, child: Text('Get Image From Gallery'),
             onPressed: (){

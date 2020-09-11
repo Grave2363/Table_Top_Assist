@@ -60,7 +60,7 @@ class _homeState extends State<home> {
           actions: <Widget>[
             FlatButton.icon(onPressed: ()async{
               await _auth.signOut();
-            }, icon: Icon(Icons.person), label: Text('Log Out'))
+             }, icon: Icon(Icons.person), label: Text('Log Out'))
           ],
         ),
         body: SingleChildScrollView(child: Column(

@@ -141,7 +141,7 @@ class _ChatSearchState extends State<ChatSearch> {
                       borderRadius: BorderRadius.circular(30),
                     ),
                     padding: EdgeInsets.all(12),
-                    child: Image.asset("assets/search.jpg")
+                    child: Image.asset("assets/searchIcon.png")
                 ),
                 ),
               ],

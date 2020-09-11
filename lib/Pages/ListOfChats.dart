@@ -53,20 +53,24 @@ class _listOfChatsState extends State<listOfChats> {
         backgroundColor: Colors.red,
         elevation: 0.0,
         title: Text('RPG Companion'),
+        actions: <Widget>[
+          FlatButton.icon(
+            icon: Icon(Icons.search),
+        label: Text('Search Users'),
+            onPressed: (){
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => ChatSearch()
+              ));},
+          ) ,
+        ],
       ),
       body:Container(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
         child: Column(
+         crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            FlatButton(
-              color: Colors.red,
-              child: Text("Search for Users"),
-              onPressed: (){
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => ChatSearch()
-                ));
-                },
-            ) ,
+
             chatList()
           ],
         ),
@@ -89,6 +93,7 @@ class ChatListDisplay extends StatelessWidget {
       },
       child: Container(
         color: Colors.black,
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
         child: Row(
           children: <Widget>[
             Container(
