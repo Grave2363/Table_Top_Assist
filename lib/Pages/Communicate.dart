@@ -96,7 +96,7 @@ class _CommunicationScreenState extends State<CommunicationScreen> {
                             borderRadius: BorderRadius.circular(30),
                           ),
                           padding: EdgeInsets.all(12),
-                          child: Image.asset("assets/search.jpg")
+                          child: Image.asset("assets/searchIcon.png")
                       ),
                     ),
                   ],
