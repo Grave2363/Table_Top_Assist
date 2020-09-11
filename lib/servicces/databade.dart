@@ -77,4 +77,8 @@ getConversation(String chatId, messageMap)
   {
     return  await Firestore.instance.collection("ChatRoom").document(chatId).collection("Chat").orderBy("Time", descending: false).snapshots();
   }
+  getRooms(String user) async
+  {
+    return await Firestore.instance.collection("ChatRoom").where("Users", arrayContains: user).snapshots();
+  }
 }

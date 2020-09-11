@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rpgcompanion/servicces/databade.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CommunicationScreen extends StatefulWidget {
   final String chatRoomId;
-  final String user;
-  CommunicationScreen(this.chatRoomId, this.user);
+  CommunicationScreen(this.chatRoomId);
   @override
   _CommunicationScreenState createState() => _CommunicationScreenState();
 }
@@ -13,6 +13,7 @@ class CommunicationScreen extends StatefulWidget {
 class _CommunicationScreenState extends State<CommunicationScreen> {
   TextEditingController editCon = new TextEditingController();
   Stream chatStream ;
+  String User = '';
   Widget chatMessage()
   {
     return StreamBuilder (
@@ -21,7 +22,7 @@ class _CommunicationScreenState extends State<CommunicationScreen> {
         return snapshot.hasData ? ListView.builder(
             itemCount: snapshot.data.documents.length
             ,itemBuilder:(context, index){
-              return Message(snapshot.data.documents[index].data["message"], snapshot.data.documents[index].data["sender"] == widget.user);
+              return Message(snapshot.data.documents[index].data["message"], snapshot.data.documents[index].data["sender"] == User);
         } ) : Container();
       },
     );
@@ -29,15 +30,21 @@ class _CommunicationScreenState extends State<CommunicationScreen> {
   send(){
     if (editCon.text.isNotEmpty)
     {
-    Map<String, dynamic> chatMap = { "message" : editCon.text, "sender" : widget.user, "Time" : DateTime.now().millisecondsSinceEpoch };
+    Map<String, dynamic> chatMap = { "message" : editCon.text, "sender" :User, "Time" : DateTime.now().millisecondsSinceEpoch };
     databaseService().getConversation(widget.chatRoomId, chatMap);
     }
   }
-  @override
-  void initState() {
+  _read()
+  async {
+    final pref = await SharedPreferences.getInstance();
+    User = pref.getString('User');
     databaseService().getMessages(widget.chatRoomId).then((value){ setState(() {
       chatStream = value;
     });});
+  }
+  @override
+  void initState() {
+    _read();
     super.initState();
   }
   @override

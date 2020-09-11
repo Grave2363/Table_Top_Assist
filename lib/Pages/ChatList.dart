@@ -26,7 +26,7 @@ class _ChatSearchState extends State<ChatSearch> {
       };
       databaseService().createChat(roomId, roomMap);
       Navigator.push(context, MaterialPageRoute(
-          builder: (context) => CommunicationScreen(roomId, myName)
+          builder: (context) => CommunicationScreen(roomId)
       ));
     }
   }
