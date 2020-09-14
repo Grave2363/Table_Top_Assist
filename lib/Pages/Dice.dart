@@ -1,15 +1,15 @@
-import 'dart:io';
 import 'dart:math';
 import 'package:rpgcompanion/shared/const.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'dart:core';
+
+// ignore: camel_case_types
 class diceRoll extends StatefulWidget {
   @override
   _diceRollState createState() => _diceRollState();
 }
 
+// ignore: camel_case_types
 class _diceRollState extends State<diceRoll> {
   final _random = new Random();
   var dice = ['4','6','8','10','12','20'];
@@ -18,6 +18,7 @@ class _diceRollState extends State<diceRoll> {
   int advantage = 0;
   int disadvantage = 0;
   int res = 0;
+  // ignore: non_constant_identifier_names
   String Die = '20';
   int calcResult ()
   {

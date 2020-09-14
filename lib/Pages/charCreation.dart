@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'dart:math';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:rpgcompanion/Pages/CharRetriever.dart';
 import 'package:rpgcompanion/model/CharSheet.dart';
@@ -10,6 +9,7 @@ import 'package:rpgcompanion/shared/const.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+// ignore: camel_case_types
 class makeCharacter extends StatefulWidget {
   final String name;
   final bool load ;
@@ -19,6 +19,7 @@ class makeCharacter extends StatefulWidget {
   _makeCharacterState createState() => _makeCharacterState();
 }
 
+// ignore: camel_case_types
 class _makeCharacterState extends State<makeCharacter> {
   final AuthSer _auth = AuthSer();
   int i = 0;
@@ -31,11 +32,17 @@ class _makeCharacterState extends State<makeCharacter> {
   String imgString = "";
   String nameVal = "";
   String classes = '';
+  // ignore: non_constant_identifier_names
   String Int = '';
+  // ignore: non_constant_identifier_names
   String Str = '';
+  // ignore: non_constant_identifier_names
   String Dex = '';
+  // ignore: non_constant_identifier_names
   String Const = '';
+  // ignore: non_constant_identifier_names
   String Wis = '';
+  // ignore: non_constant_identifier_names
   String Char = '';
   String level = '';
   String skills = '';
@@ -62,7 +69,7 @@ class _makeCharacterState extends State<makeCharacter> {
     {
       nameList = List<String>();
     }
-    final nameKey = '$nameVal';
+   // final nameKey = '$nameVal';
     final ingKey = '$nameVal img';
     final skillKey = '$nameVal skill';
     final magicKey = '$nameVal magic';
@@ -108,7 +115,7 @@ class _makeCharacterState extends State<makeCharacter> {
     final _random = new Random();
     if (nList == null)
     {
-      Fluttertoast.showToast(msg: "No Saved Characters");
+
     }
     else if (rand == true)
     {
@@ -326,11 +333,6 @@ class _makeCharacterState extends State<makeCharacter> {
                         _charController.text, _nameController.text, _skillController.text, _magicController.text);
                     i++;
                   }
-                  else
-                    {
-                      Fluttertoast.showToast(msg: "Can't save, you are Anonymous");
-                    }
-
                 },
               ),
             ],

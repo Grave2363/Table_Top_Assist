@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:rpgcompanion/Authenticate/regester.dart';
-import 'package:rpgcompanion/servicces/auth.dart';
+
+
 import 'package:rpgcompanion/shared/const.dart';
-import 'package:rpgcompanion/shared/loading.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 import 'charCreation.dart';
 class CharSearch extends StatefulWidget {
   @override

@@ -1,9 +1,8 @@
-import 'dart:math';
+
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rpgcompanion/model/CharSheet.dart';
-import 'package:rpgcompanion/model/UserInfo.dart';
-import 'package:rpgcompanion/model/user.dart';
+
 // ignore: camel_case_types
 class databaseService {
   final String uid;
@@ -73,11 +72,11 @@ getConversation(String chatId, messageMap)
 {
   Firestore.instance.collection("ChatRoom").document(chatId).collection("Chat").add(messageMap).catchError((e){print("Error "+e.toString());});
 }
-  getMessages(String chatId) async
+   getMessages(String chatId) async
   {
     return  await Firestore.instance.collection("ChatRoom").document(chatId).collection("Chat").orderBy("Time", descending: false).snapshots();
   }
-  getRooms(String user) async
+   getRooms(String user) async
   {
     return await Firestore.instance.collection("ChatRoom").where("Users", arrayContains: user).snapshots();
   }

@@ -14,6 +14,7 @@ class Regester extends StatefulWidget {
 class _RegesterState extends State<Regester> {
   final AuthSer _auth = AuthSer();
   final _formKey = GlobalKey<FormState>();
+  // ignore: non_constant_identifier_names
   String User = '';
   final _userController = TextEditingController();
   bool load = false;

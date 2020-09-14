@@ -1,14 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:rpgcompanion/Home/home.dart';
+
 import 'dart:io';
-import 'dart:math';
+
 import 'package:rpgcompanion/servicces/databade.dart';
 import 'package:rpgcompanion/shared/const.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter/material.dart';
+
 import 'package:image_picker/image_picker.dart';
-import 'package:rpgcompanion/Home/home.dart';
+
+// ignore: camel_case_types
 class profile extends StatefulWidget {
   final String name;
   profile({Key key, this.name,}): super(key:key);
@@ -16,7 +17,9 @@ class profile extends StatefulWidget {
   _profileState createState() => _profileState();
 }
 
+// ignore: camel_case_types
 class _profileState extends State<profile> {
+  // ignore: non_constant_identifier_names
   String User = '';
   String email = '';
   String bio = '';

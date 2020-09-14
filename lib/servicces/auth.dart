@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rpgcompanion/model/user.dart';
-import 'package:rpgcompanion/servicces/databade.dart';
+
 class AuthSer {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   bool isAnon = false;
@@ -56,6 +56,7 @@ class AuthSer {
       print(e.toString());
     }
   }
+  // ignore: non_constant_identifier_names
   bool IsUserAnon()
   {
     return isAnon;

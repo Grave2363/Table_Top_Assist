@@ -36,8 +36,8 @@ dependencies:
   image_picker:
   image_cropper:
   shared_preferences:
-  fluttertoast:
-  firebase_messaging: ^5.1.4
+  #fluttertoast:
+  firebase_messaging:
 
 
 dev_dependencies:

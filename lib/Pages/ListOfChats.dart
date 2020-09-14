@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:rpgcompanion/Authenticate/authenticate.dart';
-import 'package:rpgcompanion/servicces/auth.dart';
+
 import 'package:rpgcompanion/servicces/databade.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -16,7 +15,8 @@ class listOfChats extends StatefulWidget {
 
 // ignore: camel_case_types
 class _listOfChatsState extends State<listOfChats> {
-  AuthSer _auth = AuthSer();
+  //AuthSer _auth = AuthSer();
+  // ignore: non_constant_identifier_names
   String User = '';
   Stream chats;
   Widget chatList()

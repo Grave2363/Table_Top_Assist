@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:rpgcompanion/Home/home.dart';
+
 import 'editNote.dart';
+// ignore: camel_case_types
 class noteMain extends StatefulWidget {
   @override
   _noteMainState createState() => _noteMainState();
 }
 
+// ignore: camel_case_types
 class _noteMainState extends State<noteMain> {
   List <String> names = ['New Note'];
   String selName = '';

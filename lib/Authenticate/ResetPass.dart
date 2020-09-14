@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:rpgcompanion/Authenticate/regester.dart';
-import 'package:rpgcompanion/Home/home.dart';
 import 'package:rpgcompanion/servicces/auth.dart';
 import 'package:rpgcompanion/shared/const.dart';
 import 'package:rpgcompanion/shared/loading.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+// ignore: camel_case_types
 class resetPass extends StatefulWidget {
   @override
   _resetPassState createState() => _resetPassState();
 }
 
+// ignore: camel_case_types
 class _resetPassState extends State<resetPass> {
   final AuthSer _auth = AuthSer();
   final _formKey = GlobalKey<FormState>();
@@ -44,6 +44,7 @@ class _resetPassState extends State<resetPass> {
               SizedBox(height: 20.0,),
               FlatButton( color: Colors.red, child: Text('ResetPassword'), onPressed: () async { if (_formKey.currentState.validate()){
                 setState(() => load = true);
+                _save();
                 dynamic res = await _auth.resetPass(email);
                 if (res == null){
                   setState(() {

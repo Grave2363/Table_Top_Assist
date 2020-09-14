@@ -1,44 +1,40 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:rpgcompanion/Home/userGet.dart';
-import 'package:rpgcompanion/Pages/CharRetriever.dart';
-import 'package:rpgcompanion/Pages/ChatList.dart';
 import 'package:rpgcompanion/Pages/Dice.dart';
 import 'package:rpgcompanion/Pages/ListOfChats.dart';
-import 'package:rpgcompanion/Pages/MapSave.dart';
 import 'package:rpgcompanion/Pages/Profile.dart';
 import 'package:rpgcompanion/Pages/charCreation.dart';
 import 'package:rpgcompanion/Pages/editNote.dart';
-import 'package:rpgcompanion/model/CharSheet.dart';
-import 'package:rpgcompanion/model/UserInfo.dart';
 import 'package:rpgcompanion/servicces/auth.dart';
 import 'package:rpgcompanion/servicces/databade.dart';
-import 'package:rpgcompanion/shared/const.dart';
+import 'package:rpgcompanion/servicces/push_notification.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'dart:io';
+// ignore: camel_case_types
 class home extends StatefulWidget {
   @override
   _homeState createState() => _homeState();
 }
 
+// ignore: camel_case_types
 class _homeState extends State<home> {
   final AuthSer _auth = AuthSer();
   String email = '';
+  // ignore: non_constant_identifier_names
   String User = '';
   File imageFile ;
   String imgFromPrefs;
   final _userController = TextEditingController();
+  final PushNotificationService push = PushNotificationService();
   void  setImg(String img)
   {
     this.imgFromPrefs = img;
   }
   void initState()
   {
-    super.initState();
+    push.initalise();
     _read();
+    super.initState();
   }
   _read() async
   {

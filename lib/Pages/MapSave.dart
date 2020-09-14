@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:math';
 import 'package:rpgcompanion/shared/const.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +31,7 @@ class _MapSaveState extends State<MapSave> {
     {
       nameList = List<String>();
     }
-    final nameKey = '$nameVal';
+    //final nameKey = '$nameVal';
     final ingKey = '$nameVal img';
     if (nameVal.length > 0)
     {
@@ -53,11 +52,11 @@ class _MapSaveState extends State<MapSave> {
   _read() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     final nList = pref.getStringList("Names") ;
-    final _random = new Random();
+   // final _random = new Random();
     if (rand == true)
     {
-      int r = nList.length;
-      int i = _random.nextInt(r - 1);
+     // int r = nList.length;
+      //int i = _random.nextInt(r - 1);
       _nameController.text = recName;
       imgFromPrefs = pref.getString('$recName img');
     }

@@ -13,6 +13,7 @@ class CommunicationScreen extends StatefulWidget {
 class _CommunicationScreenState extends State<CommunicationScreen> {
   TextEditingController editCon = new TextEditingController();
   Stream chatStream ;
+  // ignore: non_constant_identifier_names
   String User = '';
   Widget chatMessage()
   {

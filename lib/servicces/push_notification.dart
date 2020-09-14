@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 class PushNotificationService{
@@ -24,4 +22,5 @@ class PushNotificationService{
     }
     );
   }
+
 }

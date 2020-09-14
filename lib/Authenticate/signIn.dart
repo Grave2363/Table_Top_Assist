@@ -1,14 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:rpgcompanion/Authenticate/ResetPass.dart';
-import 'package:rpgcompanion/Authenticate/regester.dart';
-import 'package:rpgcompanion/Home/home.dart';
 import 'package:rpgcompanion/servicces/auth.dart';
-import 'package:rpgcompanion/servicces/databade.dart';
+import 'package:rpgcompanion/servicces/push_notification.dart';
 import 'package:rpgcompanion/shared/const.dart';
 import 'package:rpgcompanion/shared/loading.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+// ignore: camel_case_types
 class signIn extends StatefulWidget {
   final Function toggleView;
   signIn({this.toggleView });
@@ -17,10 +14,12 @@ class signIn extends StatefulWidget {
   _signInState createState() => _signInState();
 }
 
+// ignore: camel_case_types
 class _signInState extends State<signIn> {
   final AuthSer _auth = AuthSer();
   final _formKey = GlobalKey<FormState>();
   final _emailControler = TextEditingController();
+  final PushNotificationService push = PushNotificationService();
   bool load = false;
   String error = '';
   String email = '';
@@ -30,6 +29,11 @@ class _signInState extends State<signIn> {
     SharedPreferences pref = await SharedPreferences.getInstance();
     await pref.remove("Email");
     await pref.setString("Email", email);
+  }
+  @override
+  void initState() {
+    push.initalise();
+    super.initState();
   }
   @override
   Widget build(BuildContext context) {

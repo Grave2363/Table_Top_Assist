@@ -12,11 +12,17 @@ class _CharacterRetrevalState extends State<CharacterRetreval> {
   bool getChar = false;
   String nameVal = '';
   String classes = '';
+  // ignore: non_constant_identifier_names
   String Int = '';
+  // ignore: non_constant_identifier_names
   String Str = '';
+  // ignore: non_constant_identifier_names
   String Dex = '';
+  // ignore: non_constant_identifier_names
   String Const = '';
+  // ignore: non_constant_identifier_names
   String Wis = '';
+  // ignore: non_constant_identifier_names
   String Char = '';
   String level = '';
   String skills = '';
@@ -33,7 +39,7 @@ class _CharacterRetrevalState extends State<CharacterRetreval> {
     {
       nameList = List<String>();
     }
-    final nameKey = '$nameVal';
+    //final nameKey = '$nameVal';
     final skillKey = '$nameVal skill';
     final magicKey = '$nameVal magic';
     final classKey = '$nameVal class';
@@ -88,6 +94,7 @@ class _CharacterRetrevalState extends State<CharacterRetreval> {
   Widget build(BuildContext context) {
     final characterGet = Provider.of<List<CharSheet>>(context);
     if (characterGet != null)
+      // ignore: non_constant_identifier_names
     characterGet.forEach((CharSheet)
     {
        nameVal = CharSheet.name;
