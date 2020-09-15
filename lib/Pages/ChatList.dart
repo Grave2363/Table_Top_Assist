@@ -15,14 +15,19 @@ class _ChatSearchState extends State<ChatSearch> {
   TextEditingController editCon = new TextEditingController();
   QuerySnapshot searchSnap;
   String myName  = '';
-  makeChat({String username})
+  String userToken ='';
+
+  makeChat({String username, String otherDevice})
   {
     if (username != myName){
       String roomId = getChatRoom(username, myName);
       List<String> users = [username, myName];
+      List<String> DeviceIds = [otherDevice, userToken];
       Map<String, dynamic> roomMap = {
         "Users" : users,
-        "ChatRoomId" : roomId
+        "ChatRoomId" : roomId,
+        "Sender": myName,
+        "devices": DeviceIds
       };
       databaseService().createChat(roomId, roomMap);
       Navigator.push(context, MaterialPageRoute(
@@ -35,7 +40,7 @@ class _ChatSearchState extends State<ChatSearch> {
     return searchSnap != null ? ListView.builder(itemCount: searchSnap.documents.length,
       shrinkWrap: true,
       itemBuilder: (context, index){
-      return SearchBox( userName: searchSnap.documents[index].data["Name"], email: searchSnap.documents[index].data["Email"],);
+      return SearchBox( userName: searchSnap.documents[index].data["Name"], email: searchSnap.documents[index].data["Email"],otherUserId: searchSnap.documents[index].data["DeviceId"]);
     },): Container() ;
   }
   doSearch() {
@@ -47,6 +52,7 @@ class _ChatSearchState extends State<ChatSearch> {
   {
     final pref = await SharedPreferences.getInstance();
     myName = pref.getString('User');
+    userToken = pref.getString('DeviceToken');
   }
   @override
   void initState() {
@@ -54,7 +60,7 @@ class _ChatSearchState extends State<ChatSearch> {
     super.initState();
   }
   // ignore: non_constant_identifier_names
-  Widget SearchBox({String userName, String email})
+  Widget SearchBox({String userName, String email, String otherUserId})
   {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
@@ -70,7 +76,7 @@ class _ChatSearchState extends State<ChatSearch> {
           Spacer(),
           GestureDetector(
             onTap: (){
-              makeChat( username : userName);
+              makeChat( username : userName, otherDevice: otherUserId);
             },
             child: Container(
               decoration: BoxDecoration(

@@ -37,6 +37,7 @@ class _homeState extends State<home> {
   {
     push.initalise();
     _read();
+    databaseService().setCollect(email);
     databaseService().uploadUserName( User, email, userToken);
     super.initState();
   }

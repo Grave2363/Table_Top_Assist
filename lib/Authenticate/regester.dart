@@ -51,35 +51,37 @@ class _RegesterState extends State<Regester> {
           FlatButton.icon(onPressed: (){widget.toggleView();}, icon: Icon(Icons.person), label: Text('Sign In'))
         ],
       ),
-      body: Container(
-        padding: EdgeInsets.all(10.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: <Widget>[
-              TextField(onChanged: (val) {setState(() => User = val);},controller: _userController ,decoration: textInputDecor.copyWith(hintText: 'Profile Name'), ),
-              SizedBox(height: 20.0,),
-              TextFormField(onChanged: (val) {setState(() => email = val);},validator: (val) => val.isEmpty ? 'Enter an Email': null,decoration: textInputDecor.copyWith(hintText: 'Email'),),
-              SizedBox(height: 20.0,),
-              TextFormField(onChanged: (val){setState(() => password = val);}, obscureText: true,validator: (val) => val.length < 4  ? 'Enter at least 4 characters': null,decoration: textInputDecor.copyWith(hintText: 'Password'),),
-              SizedBox(height: 20.0,),
-              FlatButton( color: Colors.red, child: Text('Register'), onPressed: () async {
-                if (_formKey.currentState.validate()){
-                  setState(() => load = true);
-                  databaseService().setCollect(email);
-                  databaseService().uploadUserName(email, _userController.text, userToken);
-                  dynamic res = await _auth.regesterEmailAndPass(email, password);
-                  _save();
-                  if (res == null){
-                    setState(() {
-                      error = 'please supply some valid email';
-                      load = false;});
+      body: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.all(10.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: <Widget>[
+                TextField(onChanged: (val) {setState(() => User = val);},controller: _userController ,decoration: textInputDecor.copyWith(hintText: 'Profile Name'), ),
+                SizedBox(height: 20.0,),
+                TextFormField(onChanged: (val) {setState(() => email = val);},validator: (val) => val.isEmpty ? 'Enter an Email': null,decoration: textInputDecor.copyWith(hintText: 'Email'),),
+                SizedBox(height: 20.0,),
+                TextFormField(onChanged: (val){setState(() => password = val);}, obscureText: true,validator: (val) => val.length < 4  ? 'Enter at least 4 characters': null,decoration: textInputDecor.copyWith(hintText: 'Password'),),
+                SizedBox(height: 20.0,),
+                FlatButton( color: Colors.red, child: Text('Register'), onPressed: () async {
+                  if (_formKey.currentState.validate()){
+                    setState(() => load = true);
+                    databaseService().setCollect(email);
+                    databaseService().uploadUserName(email, _userController.text, userToken);
+                    dynamic res = await _auth.regesterEmailAndPass(email, password);
+                    _save();
+                    if (res == null){
+                      setState(() {
+                        error = 'please supply some valid email';
+                        load = false;});
+                    }
                   }
-                }
-              },),
-              SizedBox(height: 15.0,),
-              Text(error, style: TextStyle(color: Colors.red, fontSize: 12.0),),
-            ],
+                },),
+                SizedBox(height: 15.0,),
+                Text(error, style: TextStyle(color: Colors.red, fontSize: 12.0),),
+              ],
+            ),
           ),
         ),
       ),
