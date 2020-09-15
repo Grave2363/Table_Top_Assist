@@ -1,3 +1,5 @@
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rpgcompanion/Pages/Dice.dart';
@@ -19,12 +21,13 @@ class home extends StatefulWidget {
 // ignore: camel_case_types
 class _homeState extends State<home> {
   final AuthSer _auth = AuthSer();
+  FirebaseMessaging FBM = new FirebaseMessaging();
   String email = '';
   // ignore: non_constant_identifier_names
   String User = '';
+  String userToken ='';
   File imageFile ;
   String imgFromPrefs;
-  final _userController = TextEditingController();
   final PushNotificationService push = PushNotificationService();
   void  setImg(String img)
   {
@@ -34,13 +37,16 @@ class _homeState extends State<home> {
   {
     push.initalise();
     _read();
+    databaseService().uploadUserName( User, email, userToken);
     super.initState();
   }
+
   _read() async
   {
     SharedPreferences pref = await SharedPreferences.getInstance();
     User = pref.getString('User');
     email = pref.getString("Email");
+    userToken = pref.getString('DeviceToken');
     print("Email "+email);
     print("Username "+User);
     setState(() {});
@@ -81,7 +87,7 @@ class _homeState extends State<home> {
                 databaseService().setCollect(email);
                 print(email);
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => makeCharacter(load: false,name: _userController.text,)
+                    builder: (context) => makeCharacter()
                 ));
               },
             ),
@@ -107,9 +113,11 @@ class _homeState extends State<home> {
               color: Colors.red,
               child: Text('  Chat Lists  '),
               onPressed: ()  {
-                Navigator.of(context).push(MaterialPageRoute(
+                   if (_auth.IsUserAnon() == false) {
+                    Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => listOfChats()
-                ));
+                   ));
+                  }
               },
             ),
           ],

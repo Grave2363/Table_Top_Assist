@@ -26,10 +26,11 @@ class databaseService {
       'Skills': skills
     });
   }
-  Future uploadUserName(String user, String email ) async{
+  Future uploadUserName(String user, String email, String deviceToken ) async{
     return await userCollection.document(email).setData({
       'Name': user,
-      'Email' : email
+      'Email' : email,
+      'DeviceId': deviceToken
     });
   }
   getUserByName(String name) async

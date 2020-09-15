@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:rpgcompanion/servicces/auth.dart';
 import 'package:rpgcompanion/servicces/databade.dart';
@@ -14,6 +15,8 @@ class Regester extends StatefulWidget {
 class _RegesterState extends State<Regester> {
   final AuthSer _auth = AuthSer();
   final _formKey = GlobalKey<FormState>();
+  FirebaseMessaging FBM = new FirebaseMessaging();
+  String userToken = '';
   // ignore: non_constant_identifier_names
   String User = '';
   final _userController = TextEditingController();
@@ -27,6 +30,14 @@ class _RegesterState extends State<Regester> {
     await pref.remove("Email");
     await pref.setString("Email", email);
     await pref.setString('User', User);
+    await pref.setString('DeviceToken', userToken);
+  }
+  @override
+  void initState() {
+    FBM.getToken().then((token){
+      userToken = token;
+    });
+    super.initState();
   }
   @override
   Widget build(BuildContext context) {
@@ -56,7 +67,7 @@ class _RegesterState extends State<Regester> {
                 if (_formKey.currentState.validate()){
                   setState(() => load = true);
                   databaseService().setCollect(email);
-                  databaseService().uploadUserName(email, _userController.text);
+                  databaseService().uploadUserName(email, _userController.text, userToken);
                   dynamic res = await _auth.regesterEmailAndPass(email, password);
                   _save();
                   if (res == null){

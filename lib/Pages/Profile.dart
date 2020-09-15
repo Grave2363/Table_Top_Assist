@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -20,6 +21,7 @@ class profile extends StatefulWidget {
 // ignore: camel_case_types
 class _profileState extends State<profile> {
   // ignore: non_constant_identifier_names
+  FirebaseMessaging FBM = new FirebaseMessaging();
   String User = '';
   String email = '';
   String bio = '';
@@ -31,6 +33,7 @@ class _profileState extends State<profile> {
   String recName = '';
   String imgString = "";
   String nameVal = "";
+  String userToken ='';
   bool newImg = false;
   Widget getImageWidget() {
     if (imageFile != null) {
@@ -76,6 +79,9 @@ class _profileState extends State<profile> {
   void initState()
   {
     _read();
+    FBM.getToken().then((token){
+      userToken = token;
+    });
     super.initState();
 
   }
@@ -91,6 +97,7 @@ class _profileState extends State<profile> {
     imgFromPrefs = pref.getString('User Pic');
     bio = pref.getString('User Bio');
     email = pref.getString('Email');
+    userToken = pref.getString('DeviceToken');
     setState(() {});
   }
   _save() async
@@ -100,7 +107,7 @@ class _profileState extends State<profile> {
     await pref.setString('User Pic', imgFromPrefs);
     await pref.setString('User Bio', bio);
     databaseService().setCollect(email);
-    databaseService().uploadUserName( _userController.text, email);
+    databaseService().uploadUserName( _userController.text, email, userToken);
     print("Completed update");
   }
   @override

@@ -1,5 +1,4 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
-
 class PushNotificationService{
   final FirebaseMessaging _fm = FirebaseMessaging();
   Future initalise()async
@@ -22,5 +21,16 @@ class PushNotificationService{
     }
     );
   }
+  void _serialAndNav(Map<String, dynamic> message)
+  {
+    var notificationData = message['data'];
+    var view = notificationData['view'];
+    if (view != null)
+    {
+      if (view == 'ChatList')
+      {
 
+      }
+    }
+  }
 }
