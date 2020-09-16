@@ -106,8 +106,8 @@ class _profileState extends State<profile> {
     await pref.setString('User', _userController.text);
     await pref.setString('User Pic', imgFromPrefs);
     await pref.setString('User Bio', bio);
-   // databaseService().setCollect(email);
-    databaseService().updateUser( _userController.text, email);
+    databaseService().setCollect(email);
+    databaseService().updateUser( _userController.text, email, userToken);
     print("Completed update");
   }
   @override

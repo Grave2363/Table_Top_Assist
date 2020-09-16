@@ -30,7 +30,7 @@ class _RegesterState extends State<Regester> {
     await pref.remove("Email");
     await pref.setString("Email", email);
     await pref.setString('User', User);
-   // await pref.setString('DeviceToken', userToken);
+    await pref.setString('DeviceToken', userToken);
   }
   @override
   void initState() {
@@ -68,7 +68,7 @@ class _RegesterState extends State<Regester> {
                   if (_formKey.currentState.validate()){
                     setState(() => load = true);
                     databaseService().setCollect(email);
-                    databaseService().uploadUserName(email, _userController.text);
+                    databaseService().uploadUserName(email, _userController.text, userToken);
                     dynamic res = await _auth.regesterEmailAndPass(email, password);
                     _save();
                     if (res == null){
