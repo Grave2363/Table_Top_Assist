@@ -38,9 +38,10 @@ dependencies:
   image_cropper:
   shared_preferences:
   firebase_database:
-  #fluttertoast:
+  fluttertoast:
   firebase_messaging:
   flutter_local_notifications:
+  timeago: ^2.0.27
 
 
 dev_dependencies:

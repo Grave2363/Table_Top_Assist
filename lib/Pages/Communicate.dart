@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rpgcompanion/servicces/databade.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class CommunicationScreen extends StatefulWidget {
   final String chatRoomId;
@@ -15,6 +17,7 @@ class _CommunicationScreenState extends State<CommunicationScreen> {
   Stream chatStream ;
   // ignore: non_constant_identifier_names
   String User = '';
+  String roomName = '';
   Widget chatMessage()
   {
     return StreamBuilder (
@@ -23,7 +26,9 @@ class _CommunicationScreenState extends State<CommunicationScreen> {
         return snapshot.hasData ? ListView.builder(
             itemCount: snapshot.data.documents.length
             ,itemBuilder:(context, index){
-              return Message(snapshot.data.documents[index].data["message"], snapshot.data.documents[index].data["sender"] == User);
+              Timestamp stamp = snapshot.data.documents[index].data["Time Sent"];
+              final oneMinaAgo = stamp.toDate().subtract(new Duration(minutes: 1));
+              return Message(snapshot.data.documents[index].data["message"],timeago.format(oneMinaAgo),snapshot.data.documents[index].data["sender"] == User);
         } ) : Container();
       },
     );
@@ -31,7 +36,7 @@ class _CommunicationScreenState extends State<CommunicationScreen> {
   send(){
     if (editCon.text.isNotEmpty)
     {
-    Map<String, dynamic> chatMap = { "message" : editCon.text, "sender" :User, "Time" : DateTime.now().millisecondsSinceEpoch };
+    Map<String, dynamic> chatMap = { "message" : editCon.text, "sender" :User, "Time" : DateTime.now().millisecondsSinceEpoch,"Time Sent" :  DateTime.now() };
     databaseService().getConversation(widget.chatRoomId, chatMap);
     }
   }
@@ -42,6 +47,9 @@ class _CommunicationScreenState extends State<CommunicationScreen> {
     databaseService().getMessages(widget.chatRoomId).then((value){ setState(() {
       chatStream = value;
     });});
+    String temp = '';
+    temp = widget.chatRoomId;
+    roomName = temp.replaceAll("_", "").replaceAll(User, "");
   }
   @override
   void initState() {
@@ -52,6 +60,7 @@ class _CommunicationScreenState extends State<CommunicationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: Text(roomName),
         backgroundColor: Colors.red,
         elevation: 0.0,
         actions: <Widget>[
@@ -71,6 +80,7 @@ class _CommunicationScreenState extends State<CommunicationScreen> {
                   children: <Widget>[
                     Expanded(
                         child: TextField(
+                          textCapitalization: TextCapitalization.sentences,
                           style: TextStyle(color: Colors.white),
                           controller: editCon,
                           decoration: InputDecoration(
@@ -97,7 +107,7 @@ class _CommunicationScreenState extends State<CommunicationScreen> {
                             borderRadius: BorderRadius.circular(30),
                           ),
                           padding: EdgeInsets.all(12),
-                          child: Image.asset("assets/searchIcon.png")
+                          child: Icon(Icons.send)
                       ),
                     ),
                   ],
@@ -113,7 +123,8 @@ class _CommunicationScreenState extends State<CommunicationScreen> {
 class Message extends StatelessWidget {
   final String message;
   final bool didISend;
-  Message(this.message, this.didISend);
+  final String timeSent;
+  Message(this.message,this.timeSent,this.didISend);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -130,7 +141,12 @@ class Message extends StatelessWidget {
           borderRadius: didISend ?
           BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20), bottomLeft: Radius.circular(20) ) :
           BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20), bottomRight: Radius.circular(20))),
-           child: Text(message, style: TextStyle(fontSize: 20),),
+           child: Column(
+             children: <Widget>[
+               Text(timeSent, style: TextStyle(fontSize: 12, )),
+               Text(message, style: TextStyle(fontSize: 20)),
+             ],
+           ),
       ),
     );
   }
