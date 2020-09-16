@@ -37,8 +37,8 @@ class _homeState extends State<home> {
   {
     push.initalise();
     _read();
-    databaseService().setCollect(email);
-    databaseService().uploadUserName( User, email, userToken);
+    //databaseService().setCollect(email);
+    //databaseService().uploadUserName( User, email, userToken);
     super.initState();
   }
 
@@ -47,7 +47,7 @@ class _homeState extends State<home> {
     SharedPreferences pref = await SharedPreferences.getInstance();
     User = pref.getString('User');
     email = pref.getString("Email");
-    userToken = pref.getString('DeviceToken');
+    //userToken = pref.getString('DeviceToken');
     print("Email "+email);
     print("Username "+User);
     setState(() {});

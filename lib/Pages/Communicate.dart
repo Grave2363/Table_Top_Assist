@@ -36,7 +36,7 @@ class _CommunicationScreenState extends State<CommunicationScreen> {
   send(){
     if (editCon.text.isNotEmpty)
     {
-    Map<String, dynamic> chatMap = { "message" : editCon.text, "sender" :User, "Time" : DateTime.now().millisecondsSinceEpoch,"Time Sent" :  DateTime.now() };
+    Map<String, dynamic> chatMap = { "message" : editCon.text, "sender" :User, "Time" : DateTime.now().millisecondsSinceEpoch /*for sorting messages */,"Time Sent" :  DateTime.now() };
     databaseService().getConversation(widget.chatRoomId, chatMap);
     }
   }
