@@ -88,7 +88,7 @@ class ChatListDisplay extends StatelessWidget {
     return GestureDetector(
       onTap: (){
         Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => CommunicationScreen(chatRoomId)
+            builder: (context) => CommunicationScreen(chatRoomId: chatRoomId,)
         ));
       },
       child: Container(

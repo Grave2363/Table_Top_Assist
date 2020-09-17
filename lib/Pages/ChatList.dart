@@ -16,11 +16,14 @@ class _ChatSearchState extends State<ChatSearch> {
   QuerySnapshot searchSnap;
   String myName  = '';
   String userToken ='';
-
+  String otherID = '';
+  String otherName = '';
   makeChat({String username, String otherDevice})
   {
     if (username != myName){
       String roomId = getChatRoom(username, myName);
+      otherName = username;
+      otherID = otherDevice;
       List<String> users = [username, myName];
       List<String> DeviceIds = [otherDevice, userToken];
       Map<String, dynamic> roomMap = {
@@ -29,9 +32,16 @@ class _ChatSearchState extends State<ChatSearch> {
         "Sender": myName,
         "devices": DeviceIds
       };
+      Map<String, dynamic> deviceA = {
+        "Token" : otherDevice
+      };
+      Map<String, dynamic> deviceB = {
+        "Token" : userToken
+      };
       databaseService().createChat(roomId, roomMap);
+      databaseService().setDeviceList(roomId, deviceA, deviceB);
       Navigator.push(context, MaterialPageRoute(
-          builder: (context) => CommunicationScreen(roomId)
+          builder: (context) => CommunicationScreen(chatRoomId: roomId)
       ));
     }
   }
@@ -47,6 +57,11 @@ class _ChatSearchState extends State<ChatSearch> {
     databaseService().getUserByName(editCon.text).then((val){setState(() {
       searchSnap = val;
     });});
+  }
+  _save()async
+  {
+    final pref = await SharedPreferences.getInstance();
+    pref.setString(otherName, otherID);
   }
   _read() async
   {

@@ -7,7 +7,7 @@ import 'package:timeago/timeago.dart' as timeago;
 
 class CommunicationScreen extends StatefulWidget {
   final String chatRoomId;
-  CommunicationScreen(this.chatRoomId);
+  CommunicationScreen({ this.chatRoomId});
   @override
   _CommunicationScreenState createState() => _CommunicationScreenState();
 }
@@ -15,6 +15,8 @@ class CommunicationScreen extends StatefulWidget {
 class _CommunicationScreenState extends State<CommunicationScreen> {
   TextEditingController editCon = new TextEditingController();
   Stream chatStream ;
+  String userToken ='';
+  String otherToken = '';
   // ignore: non_constant_identifier_names
   String User = '';
   String roomName = '';
@@ -28,7 +30,7 @@ class _CommunicationScreenState extends State<CommunicationScreen> {
             ,itemBuilder:(context, index){
               Timestamp stamp = snapshot.data.documents[index].data["Time Sent"];
               final oneMinaAgo = stamp.toDate().subtract(new Duration(minutes: 1));
-              return Message(snapshot.data.documents[index].data["message"],timeago.format(oneMinaAgo),snapshot.data.documents[index].data["sender"] == User);
+              return Message(snapshot.data.documents[index].data["message"],timeago.format(oneMinaAgo),snapshot.data.documents[index].data["sender"] == User || snapshot.data.documents[index].data["sender_Id"] == userToken);
         } ) : Container();
       },
     );
@@ -36,7 +38,7 @@ class _CommunicationScreenState extends State<CommunicationScreen> {
   send(){
     if (editCon.text.isNotEmpty)
     {
-    Map<String, dynamic> chatMap = { "message" : editCon.text, "sender" :User, "Time" : DateTime.now().millisecondsSinceEpoch /*for sorting messages */,"Time Sent" :  DateTime.now() };
+    Map<String, dynamic> chatMap = { "message" : editCon.text, "sender" :User,"sender_Id": userToken ,"Time" : DateTime.now().millisecondsSinceEpoch /*for sorting messages */,"Time Sent" :  DateTime.now() };
     databaseService().getConversation(widget.chatRoomId, chatMap);
     }
   }
@@ -44,6 +46,7 @@ class _CommunicationScreenState extends State<CommunicationScreen> {
   async {
     final pref = await SharedPreferences.getInstance();
     User = pref.getString('User');
+    userToken = pref.getString('DeviceToken');
     databaseService().getMessages(widget.chatRoomId).then((value){ setState(() {
       chatStream = value;
     });});
@@ -128,7 +131,7 @@ class Message extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(left: didISend ? 0 : 20, right: didISend ? 20 : 0),
+      padding: EdgeInsets.only(left: didISend ? 0 : 20, right: didISend ? 20 : 0, bottom: 10),
       margin: EdgeInsets.symmetric(vertical: 8),
       width: MediaQuery.of(context).size.width,
       alignment: didISend ? Alignment.centerRight : Alignment.centerLeft,

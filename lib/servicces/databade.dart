@@ -44,7 +44,11 @@ class databaseService {
   }
   getUserByName(String name) async
   {
-    return await Firestore.instance.collection("Users").where("Name", isEqualTo: name).getDocuments();
+    return await Firestore.instance.collection("Users").where("Name", isGreaterThanOrEqualTo: name).getDocuments();
+  }
+  getOtherID(String room)async
+  {
+    return await Firestore.instance.collection("ChatRoom").where("ChatRoomId", isEqualTo: room).getDocuments();
   }
   createChat(String chatId, chatMap)
   {
@@ -81,6 +85,11 @@ Stream<List<CharSheet>> get characters {
 getConversation(String chatId, messageMap)
 {
   Firestore.instance.collection("ChatRoom").document(chatId).collection("Chat").add(messageMap).catchError((e){print("Error "+e.toString());});
+}
+setDeviceList(String chatId, deviceI1, deviceID2)
+{
+  Firestore.instance.collection("ChatRoom").document(chatId).collection("Devices").add(deviceI1).catchError((e){print("Error "+e.toString());});
+  Firestore.instance.collection("ChatRoom").document(chatId).collection("Devices").add(deviceID2).catchError((e){print("Error "+e.toString());});
 }
    getMessages(String chatId) async
   {
