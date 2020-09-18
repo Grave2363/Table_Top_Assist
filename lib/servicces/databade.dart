@@ -91,6 +91,10 @@ setDeviceList(String chatId, deviceI1, deviceID2)
   Firestore.instance.collection("ChatRoom").document(chatId).collection("Devices").add(deviceI1).catchError((e){print("Error "+e.toString());});
   Firestore.instance.collection("ChatRoom").document(chatId).collection("Devices").add(deviceID2).catchError((e){print("Error "+e.toString());});
 }
+getDeviceID(String chatId)async
+{
+  return  await Firestore.instance.collection("ChatRoom").document(chatId).collection("Devices").snapshots();
+}
    getMessages(String chatId) async
   {
     return  await Firestore.instance.collection("ChatRoom").document(chatId).collection("Chat").orderBy("Time", descending: false).snapshots();

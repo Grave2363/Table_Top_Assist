@@ -6,7 +6,8 @@ admin.initializeApp(functions.config().functions);
 
 exports.PersonalMessaging = functions.firestore.document('ChatRoom/{roomId}/Chat/{docId}').onCreate(async (snapshot, context) => {
     var newData;
-
+    const roomID = context.params.roomId;
+    const docID = context.params.docId;
     if (snapshot.empty) {
         console.log('No Devices');
         return;
@@ -16,14 +17,15 @@ exports.PersonalMessaging = functions.firestore.document('ChatRoom/{roomId}/Chat
 
     const deviceIdTokens = await admin
         .firestore()
-        .collection('ChatRoom/{roomId}/Chat')
+        .collection('ChatRoom/' + roomID+'/Devices')
         .get();
 
     var tokens = [];
 
     for (var token of deviceIdTokens.docs) {
-        tokens.push(token.data().sender_Id);
-    }
+        tokens.push(token.data().Token);
+     }
+   
     var payload = {
         notification: {
             title: newData.sender,
@@ -32,7 +34,7 @@ exports.PersonalMessaging = functions.firestore.document('ChatRoom/{roomId}/Chat
         },
         data: {
             push_key: 'Push Key Value',
-            key1: newData.data,
+            key1: newData.message,
         },
     };
 

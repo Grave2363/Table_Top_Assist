@@ -38,6 +38,7 @@ class _ChatSearchState extends State<ChatSearch> {
       Map<String, dynamic> deviceB = {
         "Token" : userToken
       };
+      _save();
       databaseService().createChat(roomId, roomMap);
       databaseService().setDeviceList(roomId, deviceA, deviceB);
       Navigator.push(context, MaterialPageRoute(

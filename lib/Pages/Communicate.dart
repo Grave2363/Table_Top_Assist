@@ -15,6 +15,7 @@ class CommunicationScreen extends StatefulWidget {
 class _CommunicationScreenState extends State<CommunicationScreen> {
   TextEditingController editCon = new TextEditingController();
   Stream chatStream ;
+  Stream IDStream;
   String userToken ='';
   String otherToken = '';
   // ignore: non_constant_identifier_names
@@ -38,7 +39,7 @@ class _CommunicationScreenState extends State<CommunicationScreen> {
   send(){
     if (editCon.text.isNotEmpty)
     {
-    Map<String, dynamic> chatMap = { "message" : editCon.text, "sender" :User,"sender_Id": userToken ,"Time" : DateTime.now().millisecondsSinceEpoch /*for sorting messages */,"Time Sent" :  DateTime.now() };
+    Map<String, dynamic> chatMap = { "message" : editCon.text, "sender" :User,"sender_Id": userToken , "Target_ID": otherToken,"Time" : DateTime.now().millisecondsSinceEpoch /*for sorting messages */,"Time Sent" :  DateTime.now() };
     databaseService().getConversation(widget.chatRoomId, chatMap);
     }
   }
@@ -73,12 +74,15 @@ class _CommunicationScreenState extends State<CommunicationScreen> {
         color: Colors.blueGrey,
         child: Stack(
           children: <Widget>[
-            chatMessage(),
+            Container(
+              margin: EdgeInsets.only(bottom: 70),
+              child:  chatMessage(),
+            ),
             Container(
               alignment: Alignment.bottomCenter,
               child: Container(
                 color: Colors.black,
-                padding: EdgeInsets.symmetric(horizontal: 24, vertical:  14),
+                padding: EdgeInsets.symmetric(horizontal: 24, vertical:  10),
                 child: Row(
                   children: <Widget>[
                     Expanded(
@@ -132,11 +136,11 @@ class Message extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(left: didISend ? 0 : 20, right: didISend ? 20 : 0, bottom: 10),
-      margin: EdgeInsets.symmetric(vertical: 8),
+      margin: EdgeInsets.symmetric(vertical: 5),
       width: MediaQuery.of(context).size.width,
       alignment: didISend ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 15, vertical:  5),
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical:  10),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: didISend ? [Colors.blue, Colors.blueAccent] : [Colors.red, Colors.redAccent]
