@@ -91,7 +91,7 @@ class _profileState extends State<profile> {
     SharedPreferences pref = await SharedPreferences.getInstance();
     _userController.text = pref.getString('User');
     imgFromPrefs = pref.getString('User Pic');
-    bio = pref.getString('User Bio');
+    _bioController.text = pref.getString('User Bio');
     email = pref.getString('Email');
     userToken = pref.getString('DeviceToken');
     setState(() {});
