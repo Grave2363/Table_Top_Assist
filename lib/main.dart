@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
     return StreamProvider<User>.value(
       value: AuthSer().user,
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: wrapper(),
       ),
     );
