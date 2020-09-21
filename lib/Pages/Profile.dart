@@ -1,15 +1,11 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'dart:io';
-
 import 'package:rpgcompanion/servicces/databade.dart';
 import 'package:rpgcompanion/shared/const.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'package:image_picker/image_picker.dart';
-
 // ignore: camel_case_types
 class profile extends StatefulWidget {
   final String name;
@@ -107,7 +103,7 @@ class _profileState extends State<profile> {
     await pref.setString('User Pic', imgFromPrefs);
     await pref.setString('User Bio', bio);
     databaseService().setCollect(email);
-    databaseService().updateUser( _userController.text, email, userToken);
+    databaseService().updateUser( _userController.text, email, userToken, bio);
     print("Completed update");
   }
   @override

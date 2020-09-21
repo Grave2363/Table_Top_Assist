@@ -53,7 +53,7 @@ class _diceRollState extends State<diceRoll> {
                   child:
                   TextField(decoration: staticTextDecor.copyWith(hintText: 'Die Size : ',hintStyle: TextStyle(color: Colors.black),),enabled: false,),),
                 Container(
-                  width: 150,
+                  width: 100,
                   color: Colors.white,
                   child: DropdownButton<String>(
                  items: dice.map((String dropDownStringItem){return DropdownMenuItem<String>(value: dropDownStringItem,child: Text(dropDownStringItem),);}).toList(),

@@ -1,5 +1,3 @@
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rpgcompanion/model/CharSheet.dart';
 
@@ -34,12 +32,13 @@ class databaseService {
       'Profile Pic': null
     });
   }
-  Future updateUser(String user, String email, String deviceToken ) async{
+  Future updateUser(String user, String email, String deviceToken, String bio ) async{
     return await userCollection.document(email).setData({
       'Name': user,
       'Email' : email,
       'DeviceId': deviceToken,
-      'Profile Pic': null
+      'Profile Pic': null,
+      'User_Bio': bio
     });
   }
   getUserByName(String name) async
