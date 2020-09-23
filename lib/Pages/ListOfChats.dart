@@ -91,25 +91,27 @@ class ChatListDisplay extends StatelessWidget {
             builder: (context) => CommunicationScreen(chatRoomId: chatRoomId,)
         ));
       },
-      child: Container(
-        color: Colors.black,
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-        child: Row(
-          children: <Widget>[
-            Container(
-              height: 40,
-              width: 40,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: Colors.indigo,
-                borderRadius: BorderRadius.circular(40),
+      child: SingleChildScrollView(
+        child: Container(
+          color: Colors.black,
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+          child: Row(
+            children: <Widget>[
+              Container(
+                height: 40,
+                width: 40,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: Colors.indigo,
+                  borderRadius: BorderRadius.circular(40),
+                ),
+                child: Text("${otherName.substring(0,1).toUpperCase()}.",
+                style: TextStyle(color: Colors.white),),
               ),
-              child: Text("${otherName.substring(0,1).toUpperCase()}.",
-              style: TextStyle(color: Colors.white),),
-            ),
-            SizedBox(width: 10,),
-            Text(otherName, style: TextStyle(color: Colors.white),),
-          ],
+              SizedBox(width: 10,),
+              Text(otherName, style: TextStyle(color: Colors.white),),
+            ],
+          ),
         ),
       ),
     );
