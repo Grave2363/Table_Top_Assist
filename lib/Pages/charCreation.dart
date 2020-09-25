@@ -23,6 +23,9 @@ class makeCharacter extends StatefulWidget {
 class _makeCharacterState extends State<makeCharacter> {
   final AuthSer _auth = AuthSer();
   int i = 0;
+  // ignore: non_constant_identifier_names
+  var Levels = ['0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20'];
+  var standardStats = ['0','8','10','12','13','14','15'];
   String userName = '';
   File imageFile ;
   String imgFromPrefs;
@@ -33,18 +36,25 @@ class _makeCharacterState extends State<makeCharacter> {
   String nameVal = "";
   String classes = '';
   // ignore: non_constant_identifier_names
-  String Int = '';
+  String Int = '0';
+  String standInt = '0';
   // ignore: non_constant_identifier_names
-  String Str = '';
+  String Str = '0';
+  String standStr = '0';
   // ignore: non_constant_identifier_names
-  String Dex = '';
+  String Dex = '0';
+  String standDex = '0';
   // ignore: non_constant_identifier_names
-  String Const = '';
+  String Const = '0';
+  String standConst = '0';
   // ignore: non_constant_identifier_names
-  String Wis = '';
+  String Wis = '0';
+  String standWis = '0';
   // ignore: non_constant_identifier_names
-  String Char = '';
-  String level = '';
+  String Char = '0';
+  String standChar = '0';
+  String level = '0';
+  String standLevel = '0';
   String skills = '';
   String magic = '';
   bool next = false;
@@ -98,12 +108,18 @@ class _makeCharacterState extends State<makeCharacter> {
       if (skills.length > 0){ await pref.setString(skillKey, skills); print('Saved Sk');}
       if (magic.length > 0){ await pref.setString(magicKey, magic); print('Saved Mag');}
       if (classes.length > 0){ await pref.setString(classKey, classes); print('Saved class');}
-      if (Int.length > 0){ await pref.setString(intKey, Int);}
-      if (Str.length > 0){ await pref.setString(strKey, Str);}
-      if (Dex.length > 0){ await pref.setString(dexKey, Dex);}
-      if (Const.length > 0){ await pref.setString(constKey, Const);}
-      if (Wis.length > 0){ await pref.setString(wisKey, Wis);}
-      if (Char.length > 0){ await pref.setString(charKey, Char);}
+      if (standInt != standardStats[0]){await pref.setString(intKey, standInt);}
+      else if (Int.length > 0){ await pref.setString(intKey, Int);}
+      if (standStr != standardStats[0]){await pref.setString(intKey, standStr);}
+      else  if (Str.length > 0){ await pref.setString(strKey, Str);}
+      if (standDex != standardStats[0]){await pref.setString(intKey, standDex);}
+      else if (Dex.length > 0){ await pref.setString(dexKey, Dex);}
+      if (standConst != standardStats[0]){await pref.setString(intKey, standConst);}
+      else if (Const.length > 0){ await pref.setString(constKey, Const);}
+      if (standWis != standardStats[0]){await pref.setString(intKey, standWis);}
+      else if (Wis.length > 0){ await pref.setString(wisKey, Wis);}
+      if (standChar != standardStats[0]){await pref.setString(intKey, standChar);}
+      else if (Char.length > 0){ await pref.setString(charKey, Char);}
       if (level.length > 0){ await pref.setString(levelKey, level); print('Saved Level');}
       print('Saving Completed');
   }
@@ -305,14 +321,161 @@ class _makeCharacterState extends State<makeCharacter> {
                 ],
               ),
               getImageWidget(),
-              TextField(onChanged: (val) {setState(() => level = val);}, controller: _levelController, decoration: textInputDecor.copyWith(hintText: 'Level')),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    width: 300,
+                    child:
+                    TextField(decoration: staticTextDecor.copyWith(hintText: 'Character Level : ',hintStyle: TextStyle(color: Colors.black),),enabled: false,),),
+                  Container(
+                    width: 100,
+                    color: Colors.white,
+                    child: DropdownButton<String>(
+                      items: Levels.map((String dropDownStringItem){return DropdownMenuItem<String>(value: dropDownStringItem,child: Text(dropDownStringItem),);}).toList(),
+                      onChanged:(String val){
+                        setState(() {
+                          this.level = val;
+                          this.standLevel = val;
+                        });
+                        print(standLevel);
+                      },
+                      value: standLevel,
+                    ),),
+                ],),
               TextField(onChanged: (val) {setState(() => classes = val);}, controller: _classController, decoration: textInputDecor.copyWith(hintText: 'Classes'), keyboardType: TextInputType.multiline, maxLines: null,),
-              TextField(onChanged: (val) {setState(() => Str = val);}, controller: _strController, decoration: textInputDecor.copyWith(hintText: 'Strength')),
-              TextField(onChanged: (val) {setState(() => Dex = val);}, controller: _dexController, decoration: textInputDecor.copyWith(hintText: 'Dexterity')),
-              TextField(onChanged: (val) {setState(() => Const = val);}, controller: _constController, decoration: textInputDecor.copyWith(hintText: 'Constitution')),
-              TextField(onChanged: (val) {setState(() => Int = val);}, controller: _intController, decoration: textInputDecor.copyWith(hintText: 'Intelligence')),
-              TextField(onChanged: (val) {setState(() => Wis = val);}, controller: _wisController, decoration: textInputDecor.copyWith(hintText: 'Wisdom')),
-              TextField(onChanged: (val) {setState(() => Char = val);}, controller: _charController, decoration: textInputDecor.copyWith(hintText: 'Charisma')),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    width: 300,
+                    child:
+                    TextField(decoration: staticTextDecor.copyWith(hintText: 'Strength (Standard): ',hintStyle: TextStyle(color: Colors.black),),enabled: false,),),
+                  Container(
+                    width: 100,
+                    color: Colors.white,
+                    child: DropdownButton<String>(
+                      items: standardStats.map((String dropDownStringItem){return DropdownMenuItem<String>(value: dropDownStringItem,child: Text(dropDownStringItem),);}).toList(),
+                      onChanged:(String val){
+                        setState(() {
+                          this.standStr = val;
+                        });
+                        print(standStr);
+                      },
+                      value: standStr,
+                    ),),
+                ],),
+              TextField(onChanged: (val) {setState(() => Str = val);}, controller: _strController, decoration: textInputDecor.copyWith(hintText: 'Rolled Strength ')),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    width: 300,
+                    child:
+                    TextField(decoration: staticTextDecor.copyWith(hintText: 'Dexterity (Standard): ',hintStyle: TextStyle(color: Colors.black),),enabled: false,),),
+                  Container(
+                    width: 100,
+                    color: Colors.white,
+                    child: DropdownButton<String>(
+                      items: standardStats.map((String dropDownStringItem){return DropdownMenuItem<String>(value: dropDownStringItem,child: Text(dropDownStringItem),);}).toList(),
+                      onChanged:(String val){
+                        setState(() {
+                          this.standDex = val;
+                        });
+                        print(standDex);
+                      },
+                      value: standDex,
+                    ),),
+                ],),
+              TextField(onChanged: (val) {setState(() => Dex = val);}, controller: _dexController, decoration: textInputDecor.copyWith(hintText: 'Rolled Dexterity')),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    width: 300,
+                    child:
+                    TextField(decoration: staticTextDecor.copyWith(hintText: 'Constitution (Standard): ',hintStyle: TextStyle(color: Colors.black),),enabled: false,),),
+                  Container(
+                    width: 100,
+                    color: Colors.white,
+                    child: DropdownButton<String>(
+                      items: standardStats.map((String dropDownStringItem){return DropdownMenuItem<String>(value: dropDownStringItem,child: Text(dropDownStringItem),);}).toList(),
+                      onChanged:(String val){
+                        setState(() {
+                          this.standConst = val;
+                        });
+                        print(standConst);
+                      },
+                      value: standConst,
+                    ),),
+                ],),
+              TextField(onChanged: (val) {setState(() => Const = val);}, controller: _constController, decoration: textInputDecor.copyWith(hintText: 'Rolled Constitution')),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    width: 300,
+                    child:
+                    TextField(decoration: staticTextDecor.copyWith(hintText: 'Intelligence (Standard): ',hintStyle: TextStyle(color: Colors.black),),enabled: false,),),
+                  Container(
+                    width: 100,
+                    color: Colors.white,
+                    child: DropdownButton<String>(
+                      items: standardStats.map((String dropDownStringItem){return DropdownMenuItem<String>(value: dropDownStringItem,child: Text(dropDownStringItem),);}).toList(),
+                      onChanged:(String val){
+                        setState(() {
+                          this.standInt = val;
+                        });
+                        print(standInt);
+                      },
+                      value: standInt,
+                    ),),
+                ],),
+              TextField(onChanged: (val) {setState(() => Int = val);}, controller: _intController, decoration: textInputDecor.copyWith(hintText: 'Rolled Intelligence')),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    width: 300,
+                    child:
+                    TextField(decoration: staticTextDecor.copyWith(hintText: 'Wisdom (Standard): ',hintStyle: TextStyle(color: Colors.black),),enabled: false,),),
+                  Container(
+                    width: 100,
+                    color: Colors.white,
+                    child: DropdownButton<String>(
+                      items: standardStats.map((String dropDownStringItem){return DropdownMenuItem<String>(value: dropDownStringItem,child: Text(dropDownStringItem),);}).toList(),
+                      onChanged:(String val){
+                        setState(() {
+                          this.standWis = val;
+                        });
+                        print(standWis);
+                      },
+                      value: standWis,
+                    ),),
+                ],),
+              TextField(onChanged: (val) {setState(() => Wis = val);}, controller: _wisController, decoration: textInputDecor.copyWith(hintText: 'Rolled Wisdom')),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    width: 300,
+                    child:
+                    TextField(decoration: staticTextDecor.copyWith(hintText: 'Charisma (Standard): ',hintStyle: TextStyle(color: Colors.black),),enabled: false,),),
+                  Container(
+                    width: 100,
+                    color: Colors.white,
+                    child: DropdownButton<String>(
+                      items: standardStats.map((String dropDownStringItem){return DropdownMenuItem<String>(value: dropDownStringItem,child: Text(dropDownStringItem),);}).toList(),
+                      onChanged:(String val){
+                        setState(() {
+                          this.standChar = val;
+                        });
+                        print(standChar);
+                      },
+                      value: standChar,
+                    ),),
+                ],),
+              TextField(onChanged: (val) {setState(() => Char = val);}, controller: _charController, decoration: textInputDecor.copyWith(hintText: 'Rolled Charisma')),
               TextField(onChanged: (val) {setState(() => skills = val);}, controller: _skillController, decoration: textInputDecor.copyWith(hintText: 'Skills'), keyboardType: TextInputType.multiline, maxLines: null,),
               TextField(onChanged: (val) {setState(() => magic = val);}, controller: _magicController, decoration: textInputDecor.copyWith(hintText: 'Magic'), keyboardType: TextInputType.multiline, maxLines: null,),
               SizedBox(height: 20.0,),
