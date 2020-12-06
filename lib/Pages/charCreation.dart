@@ -57,6 +57,7 @@ class _makeCharacterState extends State<makeCharacter> {
   String standLevel = '0';
   String skills = '';
   String magic = '';
+  String feats = '';
   bool next = false;
   bool rand = false;
   bool searching = false;
@@ -72,6 +73,7 @@ class _makeCharacterState extends State<makeCharacter> {
   final _constController = TextEditingController();
   final _wisController = TextEditingController();
   final _charController = TextEditingController();
+  final _FeatController = TextEditingController();
   _save() async{
     final pref = await SharedPreferences.getInstance();
     var nameList = pref.getStringList('Names');
@@ -91,6 +93,7 @@ class _makeCharacterState extends State<makeCharacter> {
     final wisKey = '$nameVal wis';
     final charKey = '$nameVal char';
     final levelKey = '$nameVal level';
+    final featKey = '$nameVal feats';
     if (nameVal.length > 0 && !nameList.contains(nameVal))
     {
       nameList.add(nameVal);
@@ -106,6 +109,7 @@ class _makeCharacterState extends State<makeCharacter> {
       print('Saved new Img');
     }
       if (skills.length > 0){ await pref.setString(skillKey, skills); print('Saved Sk');}
+      if (feats.length > 0){ await pref.setString(featKey, feats); print('Saved feats');}
       if (magic.length > 0){ await pref.setString(magicKey, magic); print('Saved Mag');}
       if (classes.length > 0){ await pref.setString(classKey, classes); print('Saved class');}
       if (standInt != standardStats[0]){await pref.setString(intKey, standInt);}
@@ -149,6 +153,7 @@ class _makeCharacterState extends State<makeCharacter> {
       _constController.text = pref.getString('$nameVal const');
       _wisController.text = pref.getString('$nameVal wis');
       _charController.text = pref.getString('$nameVal char');
+      _FeatController.text = pref.getString('$nameVal feats');
       imgFromPrefs = pref.getString('$nameVal img');
       rand = false;
     }
@@ -169,6 +174,7 @@ class _makeCharacterState extends State<makeCharacter> {
       _constController.text = pref.getString('$nameVal const');
       _wisController.text = pref.getString('$nameVal wis');
       _charController.text = pref.getString('$nameVal char');
+      _FeatController.text = pref.getString('$nameVal feats');
       imgFromPrefs = pref.getString('$nameVal img');
       next = false;
       setState(() {});
@@ -186,6 +192,7 @@ class _makeCharacterState extends State<makeCharacter> {
       _constController.text = pref.getString('$nameVal const');
       _wisController.text = pref.getString('$nameVal wis');
       _charController.text = pref.getString('$nameVal char');
+      _FeatController.text = pref.getString('$nameVal feats');
       imgFromPrefs = pref.getString('$nameVal img');
       searching = false;
       setState(() {});
@@ -197,6 +204,7 @@ class _makeCharacterState extends State<makeCharacter> {
     final nList = pref.getStringList("Names");
     List<String> cpyList = List<String>(nList.length);
     pref.remove('$nameVal level');
+    pref.remove('$nameVal feats');
     pref.remove('$nameVal magic');
     pref.remove(('$nameVal magic'));
     pref.remove('$nameVal class');
@@ -321,34 +329,13 @@ class _makeCharacterState extends State<makeCharacter> {
                 ],
               ),
               getImageWidget(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    width: 300,
-                    child:
-                    TextField(decoration: staticTextDecor.copyWith(hintText: 'Character Level : ',hintStyle: TextStyle(color: Colors.black),),enabled: false,),),
-                  Container(
-                    width: 100,
-                    color: Colors.white,
-                    child: DropdownButton<String>(
-                      items: Levels.map((String dropDownStringItem){return DropdownMenuItem<String>(value: dropDownStringItem,child: Text(dropDownStringItem),);}).toList(),
-                      onChanged:(String val){
-                        setState(() {
-                          this.level = val;
-                          this.standLevel = val;
-                        });
-                        print(standLevel);
-                      },
-                      value: standLevel,
-                    ),),
-                ],),
+              TextField(onChanged: (val) {setState(() => level = val);}, controller: _levelController, decoration: textInputDecor.copyWith(hintText: 'Level'), keyboardType: TextInputType.multiline, maxLines: 1,),
               TextField(onChanged: (val) {setState(() => classes = val);}, controller: _classController, decoration: textInputDecor.copyWith(hintText: 'Classes'), keyboardType: TextInputType.multiline, maxLines: null,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    width: 300,
+                    width: 260,
                     child:
                     TextField(decoration: staticTextDecor.copyWith(hintText: 'Strength (Standard): ',hintStyle: TextStyle(color: Colors.black),),enabled: false,),),
                   Container(
@@ -370,7 +357,7 @@ class _makeCharacterState extends State<makeCharacter> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    width: 300,
+                    width: 260,
                     child:
                     TextField(decoration: staticTextDecor.copyWith(hintText: 'Dexterity (Standard): ',hintStyle: TextStyle(color: Colors.black),),enabled: false,),),
                   Container(
@@ -392,7 +379,7 @@ class _makeCharacterState extends State<makeCharacter> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    width: 300,
+                    width: 260,
                     child:
                     TextField(decoration: staticTextDecor.copyWith(hintText: 'Constitution (Standard): ',hintStyle: TextStyle(color: Colors.black),),enabled: false,),),
                   Container(
@@ -414,7 +401,7 @@ class _makeCharacterState extends State<makeCharacter> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    width: 300,
+                    width: 260,
                     child:
                     TextField(decoration: staticTextDecor.copyWith(hintText: 'Intelligence (Standard): ',hintStyle: TextStyle(color: Colors.black),),enabled: false,),),
                   Container(
@@ -436,7 +423,7 @@ class _makeCharacterState extends State<makeCharacter> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    width: 300,
+                    width: 260,
                     child:
                     TextField(decoration: staticTextDecor.copyWith(hintText: 'Wisdom (Standard): ',hintStyle: TextStyle(color: Colors.black),),enabled: false,),),
                   Container(
@@ -458,7 +445,7 @@ class _makeCharacterState extends State<makeCharacter> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    width: 300,
+                    width: 260,
                     child:
                     TextField(decoration: staticTextDecor.copyWith(hintText: 'Charisma (Standard): ',hintStyle: TextStyle(color: Colors.black),),enabled: false,),),
                   Container(
@@ -478,6 +465,7 @@ class _makeCharacterState extends State<makeCharacter> {
               TextField(onChanged: (val) {setState(() => Char = val);}, controller: _charController, decoration: textInputDecor.copyWith(hintText: 'Rolled Charisma')),
               TextField(onChanged: (val) {setState(() => skills = val);}, controller: _skillController, decoration: textInputDecor.copyWith(hintText: 'Skills'), keyboardType: TextInputType.multiline, maxLines: null,),
               TextField(onChanged: (val) {setState(() => magic = val);}, controller: _magicController, decoration: textInputDecor.copyWith(hintText: 'Magic'), keyboardType: TextInputType.multiline, maxLines: null,),
+              TextField(onChanged: (val) {setState(() => feats = val);}, controller: _FeatController, decoration: textInputDecor.copyWith(hintText: 'Feats'), keyboardType: TextInputType.multiline, maxLines: null,),
               SizedBox(height: 20.0,),
               FlatButton( color: Colors.red, child: Text('Save'), onPressed: () async {
                 _save();
@@ -493,7 +481,7 @@ class _makeCharacterState extends State<makeCharacter> {
                   {
                     databaseService().setCollect(email);
                     databaseService().uploadData( _levelController.text,_classController.text,_strController.text, _intController.text, _constController.text, _wisController.text, _dexController.text,
-                        _charController.text, _nameController.text, _skillController.text, _magicController.text);
+                        _charController.text, _nameController.text, _skillController.text, _magicController.text, _FeatController.text);
                     i++;
                   }
                 },
