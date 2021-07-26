@@ -10,6 +10,7 @@ import 'package:rpgcompanion/Pages/editNote.dart';
 import 'package:rpgcompanion/servicces/auth.dart';
 import 'package:rpgcompanion/servicces/databade.dart';
 import 'package:rpgcompanion/servicces/push_notification.dart';
+import 'package:rpgcompanion/Pages/Calc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io';
 // ignore: camel_case_types
@@ -70,6 +71,17 @@ class _homeState extends State<home> {
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
+            FlatButton(
+              color: Colors.red,
+              child: Text('Calculator'),
+              onPressed: () async {
+                await Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => Calc()//place calculator link
+                ),
+                ).then((_){_read();setState(() {});
+                });
+              },
+            ),
             FlatButton(
               color: Colors.red,
               child: Text('Profile'),
