@@ -21,13 +21,73 @@ class Calc extends StatefulWidget {
 class _CalcState extends State<Calc> {
   int numOne;
   int numTwo;
-  String hist;
-  String textToDis;
+  String hist = '';
+  String textToDis = '';
   String res;
   String operator;
   void btnOnClick(String btnVal)
   {
-    // toDo : add functionality
+    print(btnVal);
+    if (btnVal == 'C')
+    {
+      textToDis = '';
+      numOne = 0;
+      numTwo = 0;
+      res = '';
+    }else if (btnVal == 'AC')
+    {
+      textToDis = '';
+      numOne = 0;
+      numTwo = 0;
+      res = '';
+      hist = '';
+    }else if(btnVal == '+/-')
+    {
+      if (textToDis[0] != '-')
+      {
+        res = '-'+textToDis;
+      }else{
+        res= textToDis.substring(1);
+      }
+    }else if(btnVal == 'DEL')
+    {
+      res = textToDis.substring(0, textToDis.length - 1);
+    }
+    else if (btnVal == '+'|| btnVal == '-' || btnVal == '/' || btnVal == 'X')
+    {
+      numOne = int.parse(textToDis);
+      res = '';
+      operator = btnVal;
+    }else if (btnVal == '=')
+    {
+      numTwo = int.parse(textToDis);
+      if (operator == '+')
+      {
+        res = (numOne + numTwo).toString();
+        hist = numOne.toString() + operator.toString() + numTwo.toString();
+      }
+      else if (operator == '-')
+      {
+        res = (numOne - numTwo).toString();
+        hist = numOne.toString() + operator.toString() + numTwo.toString();
+      }
+      else if (operator == '/')
+      {
+        res = (numOne / numTwo).toString();
+        hist = numOne.toString() + operator.toString() + numTwo.toString();
+      }
+      else if (operator == 'X') {
+        res = (numOne * numTwo).toString();
+        hist = numOne.toString() + operator.toString() + numTwo.toString();
+      }
+    }
+    else
+    {
+      res = int.parse(textToDis + btnVal).toString();
+    }
+    setState(() {
+      textToDis = res;
+    });
   }
   @override
   Widget build(BuildContext context) {
@@ -46,7 +106,7 @@ class _CalcState extends State<Calc> {
               child: Padding(
                 padding: EdgeInsets.only(right: 12),
                 child: Text(
-                  '999 X 999', style: TextStyle(fontSize: 25, color: Colors.white60),
+                  hist, style: TextStyle(fontSize: 25, color: Colors.white60),
                 ),
               ),
               alignment: Alignment(1.0, 1.0),
@@ -55,7 +115,7 @@ class _CalcState extends State<Calc> {
               child: Padding(
                 padding: EdgeInsets.all(12),
                 child: Text(
-                  '999999', style: TextStyle(fontSize: 50, color: Colors.white),
+                  textToDis, style: TextStyle(fontSize: 50, color: Colors.white),
                 ),
               ),
               alignment: Alignment(1.0, 1.0),
