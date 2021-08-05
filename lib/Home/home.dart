@@ -95,6 +95,28 @@ class _homeState extends State<home> {
             ),
             FlatButton(
               color: Colors.red,
+              child: Text('Encode'),
+              onPressed: () async {
+                await Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => profile()
+                ),
+                ).then((_){_read();setState(() {});
+                });
+              },
+            ),
+            FlatButton(
+              color: Colors.red,
+              child: Text('Decode'),
+              onPressed: () async {
+                await Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => profile()
+                ),
+                ).then((_){_read();setState(() {});
+                });
+              },
+            ),
+            FlatButton(
+              color: Colors.red,
               child: Text('Character Sheets'),
               onPressed: ()  {
                 databaseService().setCollect(email);
