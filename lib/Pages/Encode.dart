@@ -52,7 +52,7 @@ class _EncodeState extends State<Encode> {
           children: [
             TextField(onChanged: (val) {setState(() => cypher_val = int.parse(val));}, decoration: textInputDecor.copyWith(hintText: 'Number to offset the cypher')),
             TextField(onChanged: (val) {setState(() => cypher = val);}, decoration: textInputDecor.copyWith(hintText: 'Message to encode')),
-            RaisedButton(color: Colors.red, child: Text('Roll Dice'), onPressed:(){
+            RaisedButton(color: Colors.red, child: Text('Encode'), onPressed:(){
               setState(() {
                 _encode();
               });},
