@@ -2,7 +2,9 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:rpgcompanion/Pages/Decode.dart';
 import 'package:rpgcompanion/Pages/Dice.dart';
+import 'package:rpgcompanion/Pages/Encode.dart';
 import 'package:rpgcompanion/Pages/ListOfChats.dart';
 import 'package:rpgcompanion/Pages/Profile.dart';
 import 'package:rpgcompanion/Pages/charCreation.dart';
@@ -98,7 +100,7 @@ class _homeState extends State<home> {
               child: Text('Encode'),
               onPressed: () async {
                 await Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => profile()
+                    builder: (context) => Encode()
                 ),
                 ).then((_){_read();setState(() {});
                 });
@@ -109,7 +111,7 @@ class _homeState extends State<home> {
               child: Text('Decode'),
               onPressed: () async {
                 await Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => profile()
+                    builder: (context) => Decode()
                 ),
                 ).then((_){_read();setState(() {});
                 });
