@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'dart:core';
 
 class Decode extends StatefulWidget {
-  const Decode({Key? key}) : super(key: key);
+  const Decode({Key key}) : super(key: key);
 
   @override
   _DecodeState createState() => _DecodeState();
@@ -13,6 +13,13 @@ class Decode extends StatefulWidget {
 class _DecodeState extends State<Decode> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      backgroundColor: Colors.grey,
+      appBar: AppBar(
+        backgroundColor: Colors.red,
+        elevation: 0.0,
+        title: Text('RPG Companion'),
+      ),
+    );
   }
 }
