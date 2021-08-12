@@ -18,6 +18,7 @@ class _EncodeState extends State<Encode> {
   int offset ;
   _encode()
   {
+    res = '';
     for(int i = 0; i < cypher.length; i++)
     {
       ch = cypher.codeUnitAt(i);
